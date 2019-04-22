@@ -36,7 +36,7 @@ function getArguments() {
 }
 //**********************************************************************************************************************
 //**********************************************************************************************************************
-// 
+//
 //        Bartosz Wróblewski:
 //
 //
@@ -54,6 +54,7 @@ function addInputText(arguments){
     let disabledTSString = "";
     let modelHTMLString = "";
     let modelTSString = "";
+    let placeholderHTML = "";
 
     if(arguments.disabled){
         if(arguments.disabled != "true" && arguments.disabled != "false"){
@@ -73,7 +74,9 @@ function addInputText(arguments){
         modelTSString = arguments.model + " : string;\n\n";
     }
 
-    let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTMLString + " " + modelHTMLString + " />"
+    if(arguments.placeholder) placeholderHTML = "placeholder = \"" + arguments.placeholder + "\"";
+
+    let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTMLString + " " + modelHTMLString + "" + placeholderHTML + " />"
 
     let importPath = 'import {InputTextModule} from \'primeng/inputtext\'; \n';
 
@@ -87,6 +90,7 @@ function addInputText(arguments){
 //
 //**********************************************************************************************************************
 //**********************************************************************************************************************
+
 
 function addSidebar(arguments) {
     console.log(arguments.position);
