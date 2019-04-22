@@ -49,23 +49,23 @@ const capitalize = (s) => {
     return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
+function addListbox(arguments){
 
-function addDropdown(arguments){
-
-    let disabledHTMLString = "";
-    let disabledTSString = "";
-    let modelHTMLString = "";
-    let modelTSString = "";
-    let placeholderHTML = "";
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
     let optionsHTML= "" ;
     let optionsTS = "";
-    let editableHTML = "";
     let filterHTML = "";
     let labelHTML = "";
+    let multipleHTML = "";
+    let checkboxHMTL = "";
+
     if(arguments.disabled){
-        disabledHTMLString = "[disabled] = \"" + arguments.disabled + "\"";
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
         if(arguments.disabled != "true" && arguments.disabled != "false"){
-            disabledTSString = arguments.disabled + ": boolean = false;\n\n" +
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
                 "toggle" + capitalize(arguments.disabled) + " (){\n" +
                 "this." + arguments.disabled + " = !this."+ arguments.disabled + ";\n" +
                 "}\n\n";
@@ -73,8 +73,59 @@ function addDropdown(arguments){
     }
 
     if(arguments.model){
-        modelHTMLString = "[(ngModel)] =  \"" + arguments.model + "\"";
-        modelTSString = arguments.model + " : string;\n\n";
+        modelHTML = "[(ngModel)] =  \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string;\n\n";
+    }
+
+    if(arguments.options) {
+        optionsHTML = "[options] = \"" + arguments.options + "\"";
+        optionsTS = arguments.options +": " + capitalize(arguments.options) + "[];\n\n"
+    }
+
+    if(arguments.label) labelHTML =  "optionsLabel = \"" + arguments.label + "\"";
+
+    if(arguments.filter) filterHTML = "filter = \"filter\"";
+
+    if(arguments.multiple) multipleHTML = "multiple = \"multiple\"";
+
+    if(arguments.checkbox) checkboxHMTL = "checkbox = \"checkbox\"";
+
+    let htmlToAppend = "<p-listbox " + filterHTML + " " + optionsHTML + " " + labelHTML +  " " + multipleHTML + " " + checkboxHMTL + " " + disabledHTML + " " + modelHTML + " ></p-listbox>";
+
+    let importPath = 'import {ListboxModule} from \'primeng/listbox\'; \n';
+
+    fs.appendFile(filePath + '.component.html', htmlToAppend,  err => {if (err) throw err});
+
+    updateTsFile(filePath, optionsTS + modelTS + disabledTS );
+    updateModule(modulePath , importPath, 'ListboxModule');
+
+}
+
+function addDropdown(arguments){
+
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let placeholderHTML = "";
+    let optionsHTML= "" ;
+    let optionsTS = "";
+    let editableHTML = "";
+    let filterHTML = "";
+    let labelHTML = "";
+    if(arguments.disabled){
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if(arguments.disabled != "true" && arguments.disabled != "false"){
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this."+ arguments.disabled + ";\n" +
+                "}\n\n";
+        }
+    }
+
+    if(arguments.model){
+        modelHTML = "[(ngModel)] =  \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string;\n\n";
     }
 
     if(arguments.options) {
@@ -90,31 +141,29 @@ function addDropdown(arguments){
 
     if(arguments.filter) filterHTML = "filter = \"" + arguments.filter + "\"";
 
-    let htmlToAppend = "<p-dropdown " +filterHTML + " " + optionsHTML + " " + labelHTML +  " " + editableHTML +" " + disabledHTMLString + " " + modelHTMLString + " " + placeholderHTML +  " ></p-dropdown>"
+    let htmlToAppend = "<p-dropdown " +filterHTML + " " + optionsHTML + " " + labelHTML +  " " + editableHTML +" " + disabledHTML + " " + modelHTML + " " + placeholderHTML +  " ></p-dropdown>";
 
     let importPath = 'import {DropdownModule} from \'primeng/dropdown\'; \n';
 
     fs.appendFile(filePath + '.component.html', htmlToAppend,  err => {if (err) throw err});
 
-    updateTsFile(filePath, editableTS+ optionsTS + modelTSString + disabledTSString );
+    updateTsFile(filePath,  optionsTS + modelTS + disabledTS );
     updateModule(modulePath , importPath, 'DropdownModule');
 }
 
 
-
-
 function addInputText(arguments) {
 
-    let disabledHTMLString = "";
-    let disabledTSString = "";
-    let modelHTMLString = "";
-    let modelTSString = "";
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
     let placeholderHTML = "";
 
     if (arguments.disabled) {
-        disabledHTMLString = "[disabled] = \"" + arguments.disabled + "\"";
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
         if (arguments.disabled != "true" && arguments.disabled != "false") {
-            disabledTSString = arguments.disabled + ": boolean = false;\n\n" +
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
                 "toggle" + capitalize(arguments.disabled) + " (){\n" +
                 "this." + arguments.disabled + " = !this." + arguments.disabled + ";\n" +
                 "}\n\n";
@@ -122,13 +171,13 @@ function addInputText(arguments) {
 
 
         if (arguments.model) {
-            modelHTMLString = "[(ngModel)] =  \"" + arguments.model + "\"";
-            modelTSString = arguments.model + " : string;\n\n";
+            modelHTML = "[(ngModel)] =  \"" + arguments.model + "\"";
+            modelTS = arguments.model + " : string;\n\n";
         }
 
         if (arguments.placeholder) placeholderHTML = "placeholder = \"" + arguments.placeholder + "\"";
 
-        let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTMLString + " " + modelHTMLString + "" + placeholderHTML + " />"
+        let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTML + " " + modelHTML + "" + placeholderHTML + " />";
 
         let importPath = 'import {InputTextModule} from \'primeng/inputtext\'; \n';
 
@@ -136,7 +185,7 @@ function addInputText(arguments) {
             if (err) throw err
         });
 
-        updateTsFile(filePath, modelTSString + disabledTSString);
+        updateTsFile(filePath, modelTS + disabledTS);
         updateModule(modulePath, importPath, 'InputTextModule');
     }
 
