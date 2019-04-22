@@ -19,9 +19,11 @@ switch (elementToAdd) {
     case 'inputtext':
         addInputText(getArguments());
         break;
+    case 'dropdown':
+        addDropdown(getArguments());
+        break;
 
 }
-
 
 
 function getArguments() {
@@ -34,6 +36,7 @@ function getArguments() {
 
     return passedArguments;
 }
+
 //**********************************************************************************************************************
 //**********************************************************************************************************************
 //
