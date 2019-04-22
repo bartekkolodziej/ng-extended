@@ -243,7 +243,7 @@ function updateModule(importPrimeNgPath, primeNgModuleName) {
 
     fs.writeSync(fd, buffer, 0, buffer.length, 0); //write new data
     fs.writeSync(fd, moduleData, 0, moduleData.length, buffer.length); //append old data
-    fs.close(fd);
+    fs.close(fd, err => { if (err) throw err });
 }
 
 function updateTsFile(dataToAppend) {
@@ -258,7 +258,7 @@ function updateTsFile(dataToAppend) {
     }
 
     fs.writeSync(fd, tsData, 0, tsData.length, 0); //append old data
-    fs.close(fd);
+    fs.close(fd, err => { if (err) throw err });
 }
 
 function addImportPathToTsFile(importPath) {
@@ -268,13 +268,13 @@ function addImportPathToTsFile(importPath) {
 
     fs.writeSync(fd, buffer, 0, buffer.length, 0); //write new data
     fs.writeSync(fd, moduleData, 0, moduleData.length, buffer.length); //append old data
-    fs.close(fd);
+    fs.close(fd, err => { if (err) throw err });
 }
 
 function getArgumentsAsHtmlString() {
     let properties = '';
     process.argv.forEach(e => {
-        if(!e.includes('--'))
+        if (!e.includes('--'))
             return;
         let argument = e.replace('--', '').split('=')[0];
         let value = e.replace('--', '').split('=')[1];
