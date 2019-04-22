@@ -29,7 +29,41 @@ switch (elementToAdd) {
     case 'upload':
         addUploadComponent();
         break;
+    case 'calendar':
+        addCalendar();
+        break;
+}
 
+function addCalendar() {
+    let htmlToAppend = `<p-fullCalendar [events]="events"></p-fullCalendar>`;
+    let tsToAppend = `events = [
+        {
+            "title": "All Day Event",
+            "start": "2016-01-01"
+        },
+        {
+            "title": "Long Event",
+            "start": "2016-01-07",
+            "end": "2016-01-10"
+        },
+        {
+            "title": "Repeating Event",
+            "start": "2016-01-09T16:00:00"
+        },
+        {
+            "title": "Repeating Event",
+            "start": "2016-01-16T16:00:00"
+        },
+        {
+            "title": "Conference",
+            "start": "2016-01-11",
+            "end": "2016-01-13"
+        }
+    ];`
+
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule("import {FullCalendarModule} from 'primeng/fullcalendar';\n", 'FullCalendarModule');
 
 }
 
@@ -274,7 +308,7 @@ function addImportPathToTsFile(importPath) {
 function getArgumentsAsHtmlString() {
     let properties = '';
     process.argv.forEach(e => {
-        if(!e.includes('--'))
+        if (!e.includes('--'))
             return;
         let argument = e.replace('--', '').split('=')[0];
         let value = e.replace('--', '').split('=')[1];
