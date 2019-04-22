@@ -29,42 +29,28 @@ switch (elementToAdd) {
     case 'upload':
         addUploadComponent();
         break;
-    case 'calendar':
-        addCalendar();
+    case 'card':
+        addCard();
         break;
 }
 
-function addCalendar() {
-    let htmlToAppend = `<p-fullCalendar [events]="events"></p-fullCalendar>`;
-    let tsToAppend = `events = [
-        {
-            "title": "All Day Event",
-            "start": "2016-01-01"
-        },
-        {
-            "title": "Long Event",
-            "start": "2016-01-07",
-            "end": "2016-01-10"
-        },
-        {
-            "title": "Repeating Event",
-            "start": "2016-01-09T16:00:00"
-        },
-        {
-            "title": "Repeating Event",
-            "start": "2016-01-16T16:00:00"
-        },
-        {
-            "title": "Conference",
-            "start": "2016-01-11",
-            "end": "2016-01-13"
-        }
-    ];`
+function addCard() {
+    let htmlToAppend = `<p-card header="Advanced Card" subheader="Subheader" [style]="{width: '360px'}" styleClass="ui-card-shadow" ${argumentsAsHtml}>
+    <p-header>
+        <img src="Card" src="https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
+    </p-header>
+    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</div>
+    <p-footer>
+        <button pButton type="button" label="Save" icon="pi pi-check" style="margin-right: .25em"></button>
+        <button pButton type="button" label="Cancel" icon="pi pi-times" class="ui-button-secondary"></button>
+    </p-footer>
+</p-card>`;
+    let tsToAppend = ``
 
     updateHtmlFile(htmlToAppend);
     updateTsFile(tsToAppend);
-    updateModule("import {FullCalendarModule} from 'primeng/fullcalendar';\n", 'FullCalendarModule');
-
+    updateModule("import {CardModule} from 'primeng/card';\n", '\t\t CardModule');
 }
 
 function addUploadComponent() {
@@ -277,7 +263,9 @@ function updateModule(importPrimeNgPath, primeNgModuleName) {
 
     fs.writeSync(fd, buffer, 0, buffer.length, 0); //write new data
     fs.writeSync(fd, moduleData, 0, moduleData.length, buffer.length); //append old data
-    fs.close(fd);
+    fs.close(fd, err => {
+        if (err) throw err
+    });
 }
 
 function updateTsFile(dataToAppend) {
@@ -292,7 +280,9 @@ function updateTsFile(dataToAppend) {
     }
 
     fs.writeSync(fd, tsData, 0, tsData.length, 0); //append old data
-    fs.close(fd);
+    fs.close(fd, err => {
+        if (err) throw err
+    });
 }
 
 function addImportPathToTsFile(importPath) {
@@ -302,7 +292,9 @@ function addImportPathToTsFile(importPath) {
 
     fs.writeSync(fd, buffer, 0, buffer.length, 0); //write new data
     fs.writeSync(fd, moduleData, 0, moduleData.length, buffer.length); //append old data
-    fs.close(fd);
+    fs.close(fd, err => {
+        if (err) throw err
+    });
 }
 
 function getArgumentsAsHtmlString() {
