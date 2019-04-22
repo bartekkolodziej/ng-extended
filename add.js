@@ -42,8 +42,14 @@ switch (elementToAdd) {
 //
 //
 
+function capitalize (s){
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+}
 
-function addMultiselet(arguments){
+
+
+function addMultiselect(arguments){
 
     let disabledHTML = "";
     let disabledTS = "";
@@ -70,20 +76,19 @@ function addMultiselet(arguments){
     }
 
     if(arguments.options) {
-        optionsHTML = "[options] = \"" + arguments.options + "\"";
-
         let label = "label"
         if(arguments.label) label = arguments.label;
+        let item="item";
+        if(arguments.model) item = arguments.model;
         optionsHTML = "[options] = \"" + arguments.options + "\"";
-        optionsTS = arguments.options +": " + capitalize(arguments.options) +
-            `= [{label: "${label}1"},
-            {label: "${label}2"},
-            {label: "${label}3"},
-            {label: "${label}4"},
-            {label: "${label}5"},
-            {label: "${label}6"}
+        optionsTS = arguments.options +
+            `= [{${label}: "${item}1"},
+            {${label}: "${item}2"},
+            {${label}: "${item}3"},
+            {${label}: "${item}4"},
+            {${label}: "${item}5"},
+            {${label}: "${item}6"}
              ];\n\n`;
-
     }
 
     if(arguments.label) labelHTML =  "optionsLabel = \"" + arguments.label + "\"";
@@ -101,6 +106,7 @@ function addMultiselet(arguments){
 
 
 function addListbox(arguments){
+
 
     let disabledHTML = "";
     let disabledTS = "";
@@ -129,20 +135,19 @@ function addListbox(arguments){
     }
 
     if(arguments.options) {
-        optionsHTML = "[options] = \"" + arguments.options + "\"";
-
         let label = "label"
         if(arguments.label) label = arguments.label;
+        let item="item";
+        if(arguments.model) item = arguments.model;
         optionsHTML = "[options] = \"" + arguments.options + "\"";
-        optionsTS = arguments.options +": " + capitalize(arguments.options) +
-            `= [{label: "${label}1"},
-            {label: "${label}2"},
-            {label: "${label}3"},
-            {label: "${label}4"},
-            {label: "${label}5"},
-            {label: "${label}6"}
+        optionsTS = arguments.options +
+            `= [{${label}: "${item}1"},
+            {${label}: "${item}2"},
+            {${label}: "${item}3"},
+            {${label}: "${item}4"},
+            {${label}: "${item}5"},
+            {${label}: "${item}6"}
              ];\n\n`;
-
     }
 
     if(arguments.label) labelHTML =  "optionsLabel = \"" + arguments.label + "\"";
@@ -154,6 +159,8 @@ function addListbox(arguments){
     if(arguments.checkbox) checkboxHMTL = "checkbox = \"checkbox\"";
 
     let htmlToAppend = "<p-listbox " + filterHTML + " " + optionsHTML + " " + labelHTML +  " " + multipleHTML + " " + checkboxHMTL + " " + disabledHTML + " " + modelHTML + " ></p-listbox>";
+
+    console.log(htmlToAppend);
 
     let importPath = 'import {ListboxModule} from \'primeng/listbox\'; \n';
 
@@ -194,14 +201,16 @@ function addDropdown(arguments){
     if(arguments.options) {
         let label = "label"
         if(arguments.label) label = arguments.label;
+        let item="item";
+        if(arguments.model) item = arguments.model;
         optionsHTML = "[options] = \"" + arguments.options + "\"";
-        optionsTS = arguments.options +": " + capitalize(arguments.options) +
-            `= [{label: "${label}1"},
-            {label: "${label}2"},
-            {label: "${label}3"},
-            {label: "${label}4"},
-            {label: "${label}5"},
-            {label: "${label}6"}
+        optionsTS = arguments.options +
+            `= [{${label}: "${item}1"},
+            {${label}: "${item}2"},
+            {${label}: "${item}3"},
+            {${label}: "${item}4"},
+            {${label}: "${item}5"},
+            {${label}: "${item}6"}
              ];\n\n`;
     }
 
@@ -225,6 +234,7 @@ function addDropdown(arguments){
 
 function addInputText(arguments) {
 
+    console.log("input text");
     let disabledHTML = "";
     let disabledTS = "";
     let modelHTML = "";
@@ -239,7 +249,7 @@ function addInputText(arguments) {
                 "this." + arguments.disabled + " = !this." + arguments.disabled + ";\n" +
                 "}\n\n";
         }
-
+    }
 
         if (arguments.model) {
             modelHTML = "[(ngModel)] =  \"" + arguments.model + "\"";
@@ -251,19 +261,17 @@ function addInputText(arguments) {
         let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTML + " " + modelHTML + "" + placeholderHTML + " />";
 
         let importPath = 'import {InputTextModule} from \'primeng/inputtext\'; \n';
+        console.log("htmlToAppend:");
+        console.log(htmlToAppend);
 
         updateHtmlFile(htmlToAppend);
 
         updateTsFile( modelTS + disabledTS);
         updateModule( importPath, 'InputTextModule');
-    }
+
 
 }
 
-const capitalize = (s) => {
-    if (typeof s !== 'string') return ''
-    return s.charAt(0).toUpperCase() + s.slice(1)
-}
 
 //
 //
@@ -312,7 +320,9 @@ function updateModule(importPrimeNgPath, primeNgModuleName) {
 
     fs.writeSync(fd, buffer, 0, buffer.length, 0); //write new data
     fs.writeSync(fd, moduleData, 0, moduleData.length, buffer.length); //append old data
-    fs.close(fd);
+    fs.close(fd, err => {
+        if (err) throw err
+    });
 }
 
 function updateTsFile(dataToAppend) {
@@ -327,7 +337,9 @@ function updateTsFile(dataToAppend) {
     }
 
     fs.writeSync(fd, tsData, 0, tsData.length, 0); //append old data
-    fs.close(fd);
+    fs.close(fd, err => {
+        if (err) throw err
+    });
 }
 
 function addImportPathToTsFile(importPath) {
@@ -337,7 +349,9 @@ function addImportPathToTsFile(importPath) {
 
     fs.writeSync(fd, buffer, 0, buffer.length, 0); //write new data
     fs.writeSync(fd, moduleData, 0, moduleData.length, buffer.length); //append old data
-    fs.close(fd);
+    fs.close(fd, err => {
+        if (err) throw err
+    });
 }
 
 function getArgumentsAsHtmlString() {
