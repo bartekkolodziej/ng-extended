@@ -16,6 +16,9 @@ switch (elementToAdd) {
     case 'sidebar':
         addSidebar(getArguments());
         break;
+    case 'inputtext':
+        addInputText(getArguments());
+        break;
 
 }
 
@@ -31,6 +34,59 @@ function getArguments() {
 
     return passedArguments;
 }
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+// 
+//        Bartosz Wróblewski:
+//
+//
+
+const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+
+
+function addInputText(arguments){
+
+    let disabledHTMLString = "";
+    let disabledTSString = "";
+    let modelHTMLString = "";
+    let modelTSString = "";
+
+    if(arguments.disabled){
+        if(arguments.disabled != "true" && arguments.disabled != "false"){
+            disabledHTMLString = "[disabled] = \"" + arguments.disabled + "\"";
+            disabledTSString = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this."+ arguments.disabled + ";\n" +
+                "}\n\n";
+        }
+        else{
+            disabledHTMLString = "[disabled] = " + arguments.disabled;
+        }
+    }
+
+    if(arguments.model){
+        modelHTMLString = "[(ngModel)] =  \"" + arguments.model + "\"";
+        modelTSString = arguments.model + " : string;\n\n";
+    }
+
+    let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTMLString + " " + modelHTMLString + " />"
+
+    let importPath = 'import {InputTextModule} from \'primeng/inputtext\'; \n';
+
+    fs.appendFile(filePath + '.component.html', htmlToAppend,  err => {if (err) throw err});
+
+    updateTsFile(filePath, modelTSString + disabledTSString);
+    updateModule(modulePath , importPath, 'InputTextModule');
+}
+
+//
+//
+//**********************************************************************************************************************
+//**********************************************************************************************************************
 
 function addSidebar(arguments) {
     console.log(arguments.position);
