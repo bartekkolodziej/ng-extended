@@ -29,14 +29,115 @@ switch (elementToAdd) {
     case 'upload':
         addUploadComponent();
         break;
+    case 'button':
+        addButton();
+        break;
+    case 'slider':
+        addSlider();
+        break;
+    case 'radio-button':
+        addRadioButton();
+        break;
+    case 'scroll-panel':
+        addScrollPanel();
+        break;
+    case 'accordion':
+        addAccordion();
+        break;
+}
 
+function addButton(){
+
+let htmlToAppend=`<p-button ${argumentsAsHtml} ></p-button>`
+
+updateHtmlFile(htmlToAppend);
+updateModule('import {ButtonModule} from \'primeng/button\'; \n', 'ButtonModule');
+
+
+  }
+
+  function addSlider(){
+    let htmlToAppend=`<p-slider [ngModel]="val" [min]="0" [max]="100" ${argumentsAsHtml}></p-slider>`
+    updateHtmlFile(htmlToAppend);
+    updateModule('import {SliderModule} from \'primeng/slider\'; \n', 'SliderModule');
+    
+}
+
+function addRadioButton(){
+    let htmlToAppend=`<div class="ui-g" style="width:250px;margin-bottom:10px">
+    <div class="ui-g-12"><p-radioButton [model]="radioItems"  ${argumentsAsHtml}></p-radioButton></div>
+</div>`
+
+let tsToAppend = `
+radioItems: Item[] = [
+        {
+            value: 'Option 1'
+        },
+        {
+            value: 'Option 2'
+        },
+        {
+            value: 'Option 3'
+        },
+    ]`
+
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {RadioButtonModule} from \'primeng/radiobutton\'; \n', 'RadioButtonModule');
+}
+
+function addScrollPanel(){
+
+    let htmlToAppend =`<div class="ui-g-12 ui-md-4">
+    <p-scrollPanel [style]="{width: '100%', height: '200px'}" styleClass="custombar1"  ${argumentsAsHtml}>
+        <div style="padding:1em;line-height:1.5">
+            The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding. His beloved
+            son Michael has just come home from the war, but does not intend to become part of his father's business.
+            Through Michael's life the nature of the family business becomes clear. The business of the family is just
+            like the head of the family, kind and benevolent to those who give respect, but given to ruthless violence
+            whenever anything stands against the good of the family. The story begins as Don Vito Corleone, the head
+            of a New York Mafia family, oversees his daughter's wedding. His beloved son Michael has just come home from
+            the war, but does not intend to become part of his father's business. Through Michael's life the nature of
+            the family business becomes clear. The business of the family is just like the head of the family, kind and
+            benevolent to those who give respect, but given to ruthless violence whenever anything stands against the
+            good of the family.
+        </div>
+    </p-scrollPanel>
+</div>`
+
+let tsToAppend = ``;
+
+updateHtmlFile(htmlToAppend);
+updateTsFile(tsToAppend);
+updateModule('import {ScrollPanelModule} from \'primeng/scrollpanel\'; \n', 'ScrollPanelModule');
+}
+
+function addAccordion(){
+    
+    let htmlToAppend =`<p-accordion [multiple]="true"  ${argumentsAsHtml}>
+    <p-accordionTab header="Godfather I">
+        The story begins  as Don Vito Corleone, the head of a New York Mafia family, overseeshis daughter's wedding. His beloved son ichael has just come home from the war, but does not intend to become part of his father's business. T hrough Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect, but given to ruthless violence whenever anything stands against the good of the family.
+    </p-accordionTab>
+    <p-accordionTab header="Godfather II">
+        Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream. In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy, killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows.
+   </p-accordionTab>
+    <p-accordionTab header="Godfather III">
+        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+    </p-accordionTab>
+</p-accordion>`
+
+let tsToAppend = ``;
+
+updateHtmlFile(htmlToAppend);
+updateTsFile(tsToAppend);
+updateModule('import {AccordionModule} from \'primeng/accordion\'; \n', 'AccordionModule');
 
 }
 
 function addUploadComponent() {
 
     let htmlToAppend = `
-    <h3 class="first">File upload</h3>
+    <h3 class="first">File uplo${argumentsAsHtml}ad</h3>
     <p-fileUpload url="./upload.php" (onUpload)="onUpload($event)"
             multiple="multiple"  maxFileSize="1000000" ${argumentsAsHtml}>
         <ng-template pTemplate="content">
