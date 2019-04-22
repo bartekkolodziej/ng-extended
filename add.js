@@ -11,24 +11,188 @@ const modulePath = process.argv[3];
 const elementToAdd = process.argv[4];
 
 //other params are considered as additional arguments
+const argumentsAsHtml = getArgumentsAsHtmlString();
 
 switch (elementToAdd) {
     case 'sidebar':
-        addSidebar(getArguments());
+        addSidebar();
         break;
     case 'dialog':
-        addDialog(getArguments());
+        addDialog();
+        break;
+    case 'carousel':
+        addCarousel();
+        break;
+    case 'menubar':
+        addMenuBar();
+        break;
+    case 'upload':
+        addUploadComponent();
+        break;
+
 
 }
 
+function addUploadComponent() {
 
-function addDialog(arguments) {
+    let htmlToAppend = `
+    <h3 class="first">File upload</h3>
+    <p-fileUpload url="./upload.php" (onUpload)="onUpload($event)"
+            multiple="multiple"  maxFileSize="1000000" ${argumentsAsHtml}>
+        <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+            </ul>
+        </ng-template>
+    </p-fileUpload>`
+
+    let tsToAppend = `
+    uploadedFiles: any[] = [];
+
+
+    onUpload(event) {
+        for(let file of event.files) {
+            this.uploadedFiles.push(file);
+        }
+    }
+    `;
+
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {FileUploadModule} from \'primeng/fileupload\'; \n', 'FileUploadModule');
+
+}
+
+function addMenuBar() {
+    let htmlToAppend = `
+    <p-menubar [model]="menubarItems" ${argumentsAsHtml}>
+        <div>
+            <input type="text" pInputText placeholder="Search">
+            <button pButton style="margin-left:.25em">Logout</button>
+        </div>
+    </p-menubar>`
+
+    let tsToAppend = `
+    menubarItems: MenuItem[] = [
+            {
+                label: 'File',
+                icon: 'pi pi-fw pi-file',
+                items: [{
+                        label: 'New', 
+                        icon: 'pi pi-fw pi-plus',
+                        items: [
+                            {label: 'Project'},
+                            {label: 'Other'},
+                        ]
+                    },
+                    {label: 'Open'},
+                    {separator:true},
+                    {label: 'Quit'}
+                ]
+            },
+            {
+                label: 'Edit',
+                icon: 'pi pi-fw pi-pencil',
+                items: [
+                    {label: 'Delete', icon: 'pi pi-fw pi-trash'},
+                    {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}
+                ]
+            },
+            {
+                label: 'Help',
+                icon: 'pi pi-fw pi-question',
+                items: [
+                    {
+                        label: 'Contents'
+                    },
+                    {
+                        label: 'Search', 
+                        icon: 'pi pi-fw pi-search', 
+                        items: [
+                            {
+                                label: 'Text', 
+                                items: [
+                                    {
+                                        label: 'Workspace'
+                                    }
+                                ]
+                            },
+                            {
+                                label: 'File'
+                            }
+                    ]}
+                ]
+            },
+            {
+                label: 'Actions',
+                icon: 'pi pi-fw pi-cog',
+                items: [
+                    {
+                        label: 'Edit',
+                        icon: 'pi pi-fw pi-pencil',
+                        items: [
+                            {label: 'Save', icon: 'pi pi-fw pi-save'},
+                            {label: 'Update', icon: 'pi pi-fw pi-save'},
+                        ]
+                    },
+                    {
+                        label: 'Other',
+                        icon: 'pi pi-fw pi-tags',
+                        items: [
+                            {label: 'Delete', icon: 'pi pi-fw pi-minus'}
+                        ]
+                    }
+                ]
+            },
+            {separator:true},
+            {
+                label: 'Quit', icon: 'pi pi-fw pi-times'
+            }
+        ];
+        `;
+
+    addImportPathToTsFile('import {MenuItem} from \'primeng/api\';\n');
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {MenubarModule} from \'primeng/menubar\';\n', 'MenubarModule');
+}
+
+function addCarousel() {
+    let htmlToAppend = `
+    <p-carousel headerText="Cars" [value]="carouselItems" ${argumentsAsHtml} >
+        <ng-template let-item pTemplate="item">
+        <div style="padding: 32px">
+            {{item.label}}:{{item.value}}
+        </div>
+        </ng-template>
+    </p-carousel>`
+
+    let tsToAppend = `
+    carouselItems = [
+            {label: 'Audi', value: 'Black'},
+            {label: 'BMW', value: 'White'},
+            {label: 'Honda', value: 'Blue'},
+            {label: 'Renault', value: 'White'},
+            {label: 'VW', value: 'Red'},
+            {label: 'Jaguar', value: 'Blue'},
+            {label: 'Ford', value: 'Yellow'},
+            {label: 'Mercedes', value: 'Brown'},
+            {label: 'Ford', value: 'Black'}
+        ];
+        `;
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {CarouselModule} from \'primeng/carousel\'; \n', 'CarouselModule');
+}
+
+function addDialog() {
     let htmlToAppend =
         `\n<p-dialog header="Godfather I" 
                   [(visible)]="displayDialog" 
-                  [modal]="${arguments.modal ? arguments.modal : true}" 
-                  [maximizable]="${arguments.maximizable ? arguments.maximizable : true}" 
-                  [baseZIndex]="10000">
+                  [modal]="true" 
+                  [maximizable]="true" 
+                  [baseZIndex]="10000"
+                  ${argumentsAsHtml}>
             <span>The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding. 
                 His beloved son Michael has just come home from the war, but does not intend to become part of his father's business. 
                 Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, 
@@ -42,28 +206,24 @@ function addDialog(arguments) {
 
         <button type="button" (click)="displayDialog = true" pButton>Show dialog</button>\n`;
 
-    let importPath = 'import {DialogModule} from \'primeng/dialog\'; \n';
-
     updateHtmlFile(htmlToAppend);
     updateTsFile('displayDialog = false;');
-    updateModule(importPath, 'DialogModule');
+    updateModule('import {DialogModule} from \'primeng/dialog\'; \n', 'DialogModule');
 
 }
 
-function addSidebar(arguments) {
+function addSidebar() {
     let htmlToAppend =
         `\n<p-sidebar [(visible)]="displaySidebar" 
-                    position="${arguments.left ? arguments.left : 'left'}"
-                    [fullScreen]="${arguments.fullScreen ? arguments.fullScreen : false}">
+                    position="left"
+                    ${argumentsAsHtml}>
             Content
         </p-sidebar>
         <button type="text" (click)="displaySidebar = true">Show sidebar</button>\n`;
 
-    let importPath = 'import {SidebarModule} from \'primeng/sidebar\'; \n';
-
     updateHtmlFile(htmlToAppend);
     updateTsFile('displaySidebar = false;');
-    updateModule(importPath, 'SidebarModule');
+    updateModule('import {SidebarModule} from \'primeng/sidebar\'; \n', 'SidebarModule');
 }
 
 
@@ -101,13 +261,25 @@ function updateTsFile(dataToAppend) {
     fs.close(fd);
 }
 
-function getArguments() {
-    const passedArguments = {};
+function addImportPathToTsFile(importPath) {
+    let moduleData = fs.readFileSync(filePath + '.component.ts'); //read existing contents into data
+    let fd = fs.openSync(modulePath + '.component.ts', 'w+');
+    let buffer = new Buffer(importPath);
+
+    fs.writeSync(fd, buffer, 0, buffer.length, 0); //write new data
+    fs.writeSync(fd, moduleData, 0, moduleData.length, buffer.length); //append old data
+    fs.close(fd);
+}
+
+function getArgumentsAsHtmlString() {
+    let properties = '';
     process.argv.forEach(e => {
+        if(!e.includes('--'))
+            return;
         let argument = e.replace('--', '').split('=')[0];
         let value = e.replace('--', '').split('=')[1];
-        passedArguments[argument] = value;
+        properties += `[${argument}]="${value}" `
     });
 
-    return passedArguments;
+    return properties;
 }
