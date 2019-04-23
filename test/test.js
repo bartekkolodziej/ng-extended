@@ -5,8 +5,8 @@ const exec = require('child_process').exec;
 
 describe('nge-add', function () {
 
-    afterEach(function() {
-        exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {})
+    afterEach(function () {
+        exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => { })
     });
 
     describe('sidebar', function () {
@@ -92,8 +92,8 @@ describe('nge-add', function () {
     });
 
     describe('fieldset', function () {
-        afterEach(function() {
-            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {})
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => { })
         });
         it('should add content to given component.html', function (done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test fieldset", function callback(error, stdout, stderr) {
@@ -109,6 +109,53 @@ describe('nge-add', function () {
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
 
                 assert.equal(moduleData.toString().includes('FieldsetModule'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('tabview', function () {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => { })
+        });
+        it('should add content to given component.html', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test tabview", function callback(error, stdout, stderr) {
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+                assert.equal(htmlData.toString().includes('</p-tabView>'), true);
+
+                done();
+            });
+        });
+        it('should add content to given module.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test tabview", function callback(error, stdout, stderr) {
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+
+                assert.equal(moduleData.toString().includes('TabViewModule'), true);
+
+                done();
+            });
+        });
+    });
+    describe('card', function () {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => { })
+        });
+        it('should add content to given component.html', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test card", function callback(error, stdout, stderr) {
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+                assert.equal(htmlData.toString().includes('</p-card>'), true);
+
+                done();
+            });
+        });
+        it('should add content to given module.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test card", function callback(error, stdout, stderr) {
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+
+                assert.equal(moduleData.toString().includes('CardModule'), true);
 
                 done();
             });
