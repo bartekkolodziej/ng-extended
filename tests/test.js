@@ -2,9 +2,6 @@ const assert = require('assert');
 const fs = require('fs');
 const exec = require('child_process').exec;
 
-const appPath = './myapp/src/app/my/my';
-
-
 
 describe('nge-add', function() {
 
