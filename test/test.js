@@ -84,7 +84,7 @@ describe('nge-add', function () {
 
                 assert.equal(moduleData.toString().includes('FileUploadModule'), true);
                 assert.equal(tsData.toString().includes('uploadedFiles: any[] = [];'), true);
-                assert.equal(htmlData.toString().includes('Cos żeby fail był'), true);
+                assert.equal(htmlData.toString().includes('</p-fileUpload>'), true);
 
                 done();
             });
@@ -92,15 +92,23 @@ describe('nge-add', function () {
     });
 
     describe('fieldset', function () {
-        it('should add content to given component.ts, component.html, and module.ts', function (done) {
+        afterEach(function() {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {})
+        });
+        it('should add content to given component.html', function (done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test fieldset", function callback(error, stdout, stderr) {
-                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
-                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
                 let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
 
-                assert.equal(moduleData.toString().includes('FileUploadModule'), true);
-                assert.equal(tsData.toString().includes('uploadedFiles: any[] = [];'), true);
-                assert.equal(htmlData.toString().includes('Cos żeby fail był'), true);
+                assert.equal(htmlData.toString().includes('</p-fieldset>'), true);
+
+                done();
+            });
+        });
+        it('should add content to given module.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test fieldset", function callback(error, stdout, stderr) {
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+
+                assert.equal(moduleData.toString().includes('FieldsetModule'), true);
 
                 done();
             });
