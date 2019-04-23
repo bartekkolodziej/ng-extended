@@ -148,7 +148,6 @@ function addTable(arguments){
     updateModule( importPath, 'TableModule');
 }
 
-
 function addMultiselect(arguments){
 
     let disabledHTML = "";
@@ -203,7 +202,6 @@ function addMultiselect(arguments){
 
 
 }
-
 
 function addListbox(arguments){
 
@@ -294,7 +292,7 @@ function addDropdown(arguments){
     }
 
     if(arguments.model){
-        modelHTML = "[(ngModel)] =  \"" + arguments.model + "\"";
+        modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
         modelTS = arguments.model + " : string;\n\n";
     }
 
@@ -347,18 +345,18 @@ function addInputText(arguments) {
             disabledTS = arguments.disabled + ": boolean = false;\n\n" +
                 "toggle" + capitalize(arguments.disabled) + " (){\n" +
                 "this." + arguments.disabled + " = !this." + arguments.disabled + ";\n" +
-                "}\n\n";
+                "}\n";
         }
     }
 
         if (arguments.model) {
-            modelHTML = "[(ngModel)] =  \"" + arguments.model + "\"";
-            modelTS = arguments.model + " : string;\n\n";
+            modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
+            modelTS = arguments.model + " : string;";
         }
 
         if (arguments.placeholder) placeholderHTML = "placeholder = \"" + arguments.placeholder + "\"";
 
-        let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTML + " " + modelHTML + "" + placeholderHTML + " />";
+        let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTML + " " + modelHTML + " " + placeholderHTML + " />";
 
         let importPath = 'import {InputTextModule} from \'primeng/inputtext\'; \n';
         console.log("htmlToAppend:");
