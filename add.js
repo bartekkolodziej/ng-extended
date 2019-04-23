@@ -30,7 +30,6 @@ switch (elementToAdd) {
     case 'upload':
         addUploadComponent();
         break;
-<<<<<<< HEAD
     case 'card':
         addCard();
         break;
@@ -40,10 +39,7 @@ switch (elementToAdd) {
     case 'fieldset':
         addFieldSet();
         break;
-        case 'button':
-=======
     case 'button':
->>>>>>> 8fc0e76926d4909a70e1e53281540770d61c4193
         addButton();
         break;
     case 'slider':
@@ -58,19 +54,347 @@ switch (elementToAdd) {
     case 'accordion':
         addAccordion();
         break;
+    case 'inputtext':
+        addInputText(getArguments());
+        break;
+    case 'dropdown':
+        addDropdown(getArguments());
+        break;
+    case 'listbox':
+        addListbox(getArguments());
+        break;
+    case 'multiselect':
+        addMultiselect(getArguments());
+        break;
+    case 'table':
+        addTable(getArguments());
+        break;
 }
-<<<<<<< HEAD
 
-function addFieldSet() {
-    let htmlToAppend = `<p-fieldset legend="Toggleable" [toggleable]="true">
-    The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding. 
-    His beloved son Michael has just come home from the war, but does not intend to become part of his father's business. 
-    Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, 
-    kind and benevolent to those who give respect, 
-    but given to ruthless violence whenever anything stands against the good of the family.
-</p-fieldset>`;
-    let tsToAppend = ``;
-=======
+
+
+function capitalize (s){
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+function addTable(arguments){
+    let columnsHTML="";
+    let columnsTS = "";
+    let valueHTML = "";
+    let valueTS = "";
+    let htmlToAppend = "";
+
+    if(!arguments.columns || !arguments.value){
+        htmlToAppend = `
+<p-table >
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Header1</th>
+            <th>Header2</th>
+            <th>Header3</th>
+            <th>Header4</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" >
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+    </ng-template>
+</p-table>
+`;
+    }
+    else {
+        if (arguments.columns) {
+            columnsHTML = arguments.columns;
+            columnsTS = `
+            ${arguments.columns} = [
+                {field: "field1", header: "Header1"},
+                {field: "field2", header: "Header2"},
+                {field: "field3", header: "Header3"},
+                {field: "field4", header: "Header4"}
+            ];
+        `;
+        }
+
+        if (arguments.value) {
+            valueHTML = arguments.value;
+            valueTS = `
+            ${arguments.value} = [
+                {field1: "value1", field2: "value2", field3: "value3", field4: "value4"},
+                {field1: "value1", field2: "value2", field3: "value3", field4: "value4"},
+                {field1: "value1", field2: "value2", field3: "value3", field4: "value4"},
+                {field1: "value1", field2: "value2", field3: "value3", field4: "value4"}
+            ]
+        `;
+        }
+
+        htmlToAppend = `
+<p-table [columns]="${columnsHTML}" [value]="${valueHTML}">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+`;
+    }
+    let importPath = 'import {TableModule} from \'primeng/table\'; \n';
+    updateHtmlFile(htmlToAppend);
+    updateTsFile( columnsTS + valueTS );
+    updateModule( importPath, 'TableModule');
+}
+
+function addMultiselect(arguments){
+
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let optionsHTML= "" ;
+    let optionsTS = "";
+    let labelHTML = "optionsLabel = \"label\"";
+
+
+    if(arguments.disabled){
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if(arguments.disabled != "true" && arguments.disabled != "false"){
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this."+ arguments.disabled + ";\n" +
+                "}\n\n";
+        }
+    }
+
+    if(arguments.model){
+        modelHTML = "[(ngModel)] =  \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string;\n\n";
+    }
+
+    if(arguments.options) {
+        let label = "label"
+        if(arguments.label) label = arguments.label;
+        let item="item";
+        if(arguments.model) item = arguments.model;
+        optionsHTML = "[options] = \"" + arguments.options + "\"";
+        optionsTS = arguments.options +
+            `= [{${label}: "${item}1"},
+            {${label}: "${item}2"},
+            {${label}: "${item}3"},
+            {${label}: "${item}4"},
+            {${label}: "${item}5"},
+            {${label}: "${item}6"}
+             ];\n\n`;
+    }
+
+    if(arguments.label) labelHTML =  "optionsLabel = \"" + arguments.label + "\"";
+
+    let htmlToAppend = "<p-multiselect " + optionsHTML + " " + labelHTML + " " + disabledHTML + " " + modelHTML + " ></p-multiselect><br/>";
+
+    let importPath = 'import {MultiSelectModule} from \'primeng/multiselect\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+    updateTsFile( optionsTS + modelTS + disabledTS );
+    updateModule( importPath, 'MultiSelectModule');
+
+
+}
+
+function addListbox(arguments){
+
+
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let optionsHTML= "" ;
+    let optionsTS = "";
+    let filterHTML = "";
+    let labelHTML = "optionsLabel = \"label\"";
+    let multipleHTML = "";
+    let checkboxHMTL = "";
+
+    if(arguments.disabled){
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if(arguments.disabled != "true" && arguments.disabled != "false"){
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this."+ arguments.disabled + ";\n" +
+                "}\n\n";
+        }
+    }
+
+    if(arguments.model){
+        modelHTML = "[(ngModel)] =  \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string = '';\n\n";
+    }
+
+    if(arguments.options) {
+        let label = "label"
+        if(arguments.label) label = arguments.label;
+        let item="item";
+        if(arguments.model) item = arguments.model;
+        optionsHTML = "[options] = \"" + arguments.options + "\"";
+        optionsTS = arguments.options +
+            `= [{${label}: "${item}1"},
+            {${label}: "${item}2"},
+            {${label}: "${item}3"},
+            {${label}: "${item}4"},
+            {${label}: "${item}5"},
+            {${label}: "${item}6"}
+             ];\n\n`;
+    }
+
+    if(arguments.label) labelHTML =  "optionsLabel = \"" + arguments.label + "\"";
+
+    if(arguments.filter) filterHTML = "filter = \"filter\"";
+
+    if(arguments.multiple) multipleHTML = "multiple = \"multiple\"";
+
+    if(arguments.checkbox) checkboxHMTL = "checkbox = \"checkbox\"";
+
+    let htmlToAppend = "<p-listbox " + filterHTML + " " + optionsHTML + " " + labelHTML +  " " + multipleHTML + " " + checkboxHMTL + " " + disabledHTML + " " + modelHTML + " ></p-listbox><br/>";
+
+    console.log(htmlToAppend);
+
+    let importPath = 'import {ListboxModule} from \'primeng/listbox\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile( optionsTS + modelTS + disabledTS );
+    updateModule( importPath, 'ListboxModule');
+
+}
+
+function addDropdown(arguments){
+
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let placeholderHTML = "";
+    let optionsHTML= "" ;
+    let optionsTS = "";
+    let editableHTML = "";
+    let filterHTML = "";
+    let labelHTML = "optionsLabel = \"label\"";
+    if(arguments.disabled){
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if(arguments.disabled != "true" && arguments.disabled != "false"){
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this."+ arguments.disabled + ";\n" +
+                "}\n\n";
+        }
+    }
+
+    if(arguments.model){
+        modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string;\n\n";
+    }
+
+    if(arguments.options) {
+        let label = "label"
+        if(arguments.label) label = arguments.label;
+        let item="item";
+        if(arguments.model) item = arguments.model;
+        optionsHTML = "[options] = \"" + arguments.options + "\"";
+        optionsTS = arguments.options +
+            `= [{${label}: "${item}1"},
+            {${label}: "${item}2"},
+            {${label}: "${item}3"},
+            {${label}: "${item}4"},
+            {${label}: "${item}5"},
+            {${label}: "${item}6"}
+             ];\n\n`;
+    }
+
+    if(arguments.label) labelHTML =  "optionsLabel = \"" + arguments.label + "\"";
+
+    if(arguments.placeholder) placeholderHTML = "placeholder = \"" + arguments.placeholder + "\"";
+
+    if(arguments.editable) editableHTML = "editable = \"" + arguments.editable + "\"";
+
+    if(arguments.filter) filterHTML = "filter = \"" + arguments.filter + "\"";
+
+    let htmlToAppend = "<p-dropdown " +filterHTML + " " + optionsHTML + " " + labelHTML +  " " + editableHTML +" " + disabledHTML + " " + modelHTML + " " + placeholderHTML +  " ></p-dropdown><br/>";
+
+    let importPath = 'import {DropdownModule} from \'primeng/dropdown\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile(  optionsTS + modelTS + disabledTS );
+    updateModule( importPath, 'DropdownModule');
+}
+
+function addInputText(arguments) {
+
+    console.log("input text");
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let placeholderHTML = "";
+
+    if (arguments.disabled) {
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if (arguments.disabled != "true" && arguments.disabled != "false") {
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this." + arguments.disabled + ";\n" +
+                "}\n";
+        }
+    }
+
+    if (arguments.model) {
+        modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string;";
+    }
+
+    if (arguments.placeholder) placeholderHTML = "placeholder = \"" + arguments.placeholder + "\"";
+
+    let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTML + " " + modelHTML + " " + placeholderHTML + " /><br/>";
+
+    let importPath = 'import {InputTextModule} from \'primeng/inputtext\'; \n';
+    console.log("htmlToAppend:");
+    console.log(htmlToAppend);
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile( modelTS + disabledTS);
+    updateModule( importPath, 'InputTextModule');
+
+}
 
 function addButton(){
 
@@ -157,7 +481,16 @@ let tsToAppend = ``;
 updateHtmlFile(htmlToAppend);
 updateTsFile(tsToAppend);
 updateModule('import {AccordionModule} from \'primeng/accordion\'; \n', 'AccordionModule');
->>>>>>> 8fc0e76926d4909a70e1e53281540770d61c4193
+
+  function addFieldSet() {
+    let htmlToAppend = `<p-fieldset legend="Toggleable" [toggleable]="true" ${argumentsAsHtml}>
+    The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding. 
+    His beloved son Michael has just come home from the war, but does not intend to become part of his father's business. 
+    Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, 
+    kind and benevolent to those who give respect, 
+    but given to ruthless violence whenever anything stands against the good of the family.
+</p-fieldset>`;
+    let tsToAppend = ``;
 
     updateHtmlFile(htmlToAppend);
     updateTsFile(tsToAppend);
@@ -166,7 +499,7 @@ updateModule('import {AccordionModule} from \'primeng/accordion\'; \n', 'Accordi
 
 function addTabview() {
     let htmlToAppend = `<h3>Closable</h3>
-    <p-tabView>
+    <p-tabView ${argumentsAsHtml}>
         <p-tabPanel header="Godfather I" [selected]="true">
             The story begins as Don Vito Corleone, the head of a New York Mafia family, overseeshis daughter's wedding. His beloved son ichael has just come home from the war, but does not intend to become part of his father's business. T hrough Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect, but given to ruthless violence whenever anything stands against the good of the family.
         </p-tabPanel>
@@ -560,3 +893,13 @@ function parseParametersToString() {
     return properties;
 }
 
+function getArguments() {
+    const passedArguments = {};
+    process.argv.forEach(e => {
+        let argument = e.replace('--', '').split('=')[0];
+        let value = e.replace('--', '').split('=')[1];
+        passedArguments[argument] = value;
+    });
+
+    return passedArguments;
+}
