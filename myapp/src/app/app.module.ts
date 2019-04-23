@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MyComponent } from './my/my.component';
+import {FormsModule} from "@angular/forms";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+
 
 @NgModule({
   declarations: [
@@ -10,7 +13,10 @@ import { MyComponent } from './my/my.component';
     MyComponent
   ],
   imports: [
-    BrowserModule
+
+    NoopAnimationsModule,
+    BrowserModule,
+    FormsModule,
   ],
   providers: [
 

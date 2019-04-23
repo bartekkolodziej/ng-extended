@@ -192,13 +192,13 @@ function addMultiselect(arguments){
 
     if(arguments.label) labelHTML =  "optionsLabel = \"" + arguments.label + "\"";
 
-    let htmlToAppend = "<p-multiselect " + optionsHTML + " " + labelHTML + " " + disabledHTML + " " + modelHTML + " ></p-multiselect>";
+    let htmlToAppend = "<p-multiselect " + optionsHTML + " " + labelHTML + " " + disabledHTML + " " + modelHTML + " ></p-multiselect><br/>";
 
-    let importPath = 'import {MultiselectModule} from \'primeng/multiselect\'; \n';
+    let importPath = 'import {MultiSelectModule} from \'primeng/multiselect\'; \n';
 
     updateHtmlFile(htmlToAppend);
     updateTsFile( optionsTS + modelTS + disabledTS );
-    updateModule( importPath, 'MultiselectModule');
+    updateModule( importPath, 'MultiSelectModule');
 
 
 }
@@ -229,7 +229,7 @@ function addListbox(arguments){
 
     if(arguments.model){
         modelHTML = "[(ngModel)] =  \"" + arguments.model + "\"";
-        modelTS = arguments.model + " : string;\n\n";
+        modelTS = arguments.model + " : string = '';\n\n";
     }
 
     if(arguments.options) {
@@ -256,7 +256,7 @@ function addListbox(arguments){
 
     if(arguments.checkbox) checkboxHMTL = "checkbox = \"checkbox\"";
 
-    let htmlToAppend = "<p-listbox " + filterHTML + " " + optionsHTML + " " + labelHTML +  " " + multipleHTML + " " + checkboxHMTL + " " + disabledHTML + " " + modelHTML + " ></p-listbox>";
+    let htmlToAppend = "<p-listbox " + filterHTML + " " + optionsHTML + " " + labelHTML +  " " + multipleHTML + " " + checkboxHMTL + " " + disabledHTML + " " + modelHTML + " ></p-listbox><br/>";
 
     console.log(htmlToAppend);
 
@@ -320,7 +320,7 @@ function addDropdown(arguments){
 
     if(arguments.filter) filterHTML = "filter = \"" + arguments.filter + "\"";
 
-    let htmlToAppend = "<p-dropdown " +filterHTML + " " + optionsHTML + " " + labelHTML +  " " + editableHTML +" " + disabledHTML + " " + modelHTML + " " + placeholderHTML +  " ></p-dropdown>";
+    let htmlToAppend = "<p-dropdown " +filterHTML + " " + optionsHTML + " " + labelHTML +  " " + editableHTML +" " + disabledHTML + " " + modelHTML + " " + placeholderHTML +  " ></p-dropdown><br/>";
 
     let importPath = 'import {DropdownModule} from \'primeng/dropdown\'; \n';
 
@@ -356,7 +356,7 @@ function addInputText(arguments) {
 
         if (arguments.placeholder) placeholderHTML = "placeholder = \"" + arguments.placeholder + "\"";
 
-        let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTML + " " + modelHTML + " " + placeholderHTML + " />";
+        let htmlToAppend = "<input type=\"text\" pInputText " + disabledHTML + " " + modelHTML + " " + placeholderHTML + " /><br/>";
 
         let importPath = 'import {InputTextModule} from \'primeng/inputtext\'; \n';
         console.log("htmlToAppend:");
