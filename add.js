@@ -454,7 +454,6 @@ function addCard() {
 function addButton(){
 
     let htmlToAppend=`<p-button  ${parameters} ></p-button>`
-    
     updateHtmlFile(htmlToAppend);
     updateModule('import {ButtonModule} from \'primeng/button\'; \n', 'ButtonModule');
     

@@ -1,0 +1,142 @@
+<input type="text" pInputText  [(ngModel)] = "text" placeholder = "type_here" /><br/><input type="text" pInputText  [(ngModel)] = "text" placeholder = "type_here" /><br/><input type="text" pInputText  [(ngModel)] = "text" placeholder = "type_here" /><br/><p-dropdown  [options] = "myopt" optionsLabel = "mylabel" editable = "true"  [(ngModel)] = "mymodel" placeholder = "placeholder" ></p-dropdown><br/><p-dropdown  [options] = "myopt" optionsLabel = "mylabel" editable = "true"  [(ngModel)] = "mymodel" placeholder = "placeholder" ></p-dropdown><br/><p-dropdown  [options] = "myopt" optionsLabel = "mylabel" editable = "true"  [(ngModel)] = "mymodel" placeholder = "placeholder" ></p-dropdown><br/><p-listbox  [options] = "myopt" optionsLabel = "mylabel" multiple = "multiple" checkbox = "checkbox"  [(ngModel)] =  "mymodel" ></p-listbox><br/><p-listbox  [options] = "myopt" optionsLabel = "mylabel" multiple = "multiple" checkbox = "checkbox"  [(ngModel)] =  "mymodel" ></p-listbox><br/><p-listbox  [options] = "myopt" optionsLabel = "mylabel" multiple = "multiple" checkbox = "checkbox"  [(ngModel)] =  "mymodel" ></p-listbox><br/><p-listbox  [options] = "myopt" optionsLabel = "mylabel" multiple = "multiple" checkbox = "checkbox"  [(ngModel)] =  "mymodel" ></p-listbox><br/><p-listbox  [options] = "myopt" optionsLabel = "mylabel" multiple = "multiple" checkbox = "checkbox"  [(ngModel)] =  "mymodel" ></p-listbox><br/><p-multiselect [options] = "myopt" optionsLabel = "mylabel"  [(ngModel)] =  "mymodel" ></p-multiselect><br/><p-multiselect [options] = "myopt" optionsLabel = "mylabel"  [(ngModel)] =  "mymodel" ></p-multiselect><br/><p-multiselect [options] = "myopt" optionsLabel = "mylabel"  [(ngModel)] =  "mymodel" ></p-multiselect><br/><p-multiselect [options] = "myopt" optionsLabel = "mylabel"  [(ngModel)] =  "mymodel" ></p-multiselect><br/><p-multiselect [options] = "myopt" optionsLabel = "mylabel"  [(ngModel)] =  "mymodel" ></p-multiselect><br/>
+<p-table >
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Header1</th>
+            <th>Header2</th>
+            <th>Header3</th>
+            <th>Header4</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" >
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-table >
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Header1</th>
+            <th>Header2</th>
+            <th>Header3</th>
+            <th>Header4</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" >
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+        <tr>
+            <td>value1</td>
+            <td>value2</td>
+            <td>value3</td>
+            <td>value4</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-table [columns]="mycols" [value]="myval">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-table [columns]="mycols" [value]="myval">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-table [columns]="mycols" [value]="myval">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-table [columns]="mycols" [value]="myval">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

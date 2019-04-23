@@ -5,6 +5,139 @@ const exec = require('child_process').exec;
 
 describe('nge-add', function () {
 
+
+    describe('button', function () {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
+        it('should add content to given component.html', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test button --label='ok' --styleClass='ui-button-warning'", function callback(error, stdout, stderr) {
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+                assert.equal(htmlData.toString().includes('</p-button>'), true);
+                done();
+            });
+        });
+
+        it('should add content to given module.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test button --label='ok' --styleClass='ui-button-warning'", function callback(error, stdout, stderr) {
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                assert.equal(moduleData.toString().includes('ButtonModule'), true);
+                done();
+            });
+        });
+    });
+
+    describe('radio-button', function () {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
+        it('should add content to given component.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test radio-button --label='yes' --value='val1' --ngModel='selectedValue'", function callback(error, stdout, stderr) {
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                assert.equal(tsData.toString().includes('selectedValue'), true);
+                done();
+            });
+        });
+
+        it('should add content to given component.html', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test radio-button --label='yes' --value='val1' --ngModel='selectedValue'", function callback(error, stdout, stderr) {
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+                assert.equal(htmlData.toString().includes('</p-radioButton>'), true);
+                done();
+            });
+        });
+
+        it('should add content to given module.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test radio-button --label='yes' --value='val1' --ngModel='selectedValue'", function callback(error, stdout, stderr) {
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                assert.equal(moduleData.toString().includes('RadioButtonModule'), true);
+                done();
+            });
+        });
+    });
+
+    describe('slider', function () {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
+        it('should add content to given component.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test slider --ngModel='value1' --style='{'width':'14em'}'", function callback(error, stdout, stderr) {
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                assert.equal(tsData.toString().includes('selectedValue'), true);
+                done();
+            });
+        });
+
+        it('should add content to given component.html', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test slider --ngModel='value1' --style='{'width':'14em'}'", function callback(error, stdout, stderr) {
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+                assert.equal(htmlData.toString().includes('</p-slider>'), true);
+                done();
+            });
+        });
+
+        it('should add content to given module.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test slider --ngModel='value1' --style='{'width':'14em'}'", function callback(error, stdout, stderr) {
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                assert.equal(moduleData.toString().includes('SliderModule'), true);
+                done();
+            });
+        });
+    });
+
+
+    describe('scroll-panel', function () {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
+        it('should add content to given component.html', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test scroll-panel --styleClass='ui-scrollpanel-bar'", function callback(error, stdout, stderr) {
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+                assert.equal(htmlData.toString().includes('</p-scrollPanel>'), true);
+                done();
+            });
+        });
+
+        it('should add content to given module.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test scroll-panel --styleClass='ui-scrollpanel-bar'", function callback(error, stdout, stderr) {
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                assert.equal(moduleData.toString().includes('ScrollPanelModule'), true);
+                done();
+            });
+        });
+    });
+
+    describe('accordion', function () {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
+        it('should add content to given component.html', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test accordion --styleClass='ui-scrollpanel'", function callback(error, stdout, stderr) {
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+                assert.equal(htmlData.toString().includes('</p-accordion>'), true);
+                done();
+            });
+        });
+
+        it('should add content to given module.ts', function (done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test accordion --styleClass='ui-scrollpanel'", function callback(error, stdout, stderr) {
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                assert.equal(moduleData.toString().includes('AccordionModule'), true);
+                done();
+            });
+        });
+    });
+
     describe('sidebar', function () {
         afterEach(function () {
             exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
