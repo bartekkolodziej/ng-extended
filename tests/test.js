@@ -9,21 +9,6 @@ describe('nge-add', function() {
         exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {})
     });
 
-    describe('sidebar', function() {
-        it('should add content to given component.ts, component.html, and module.ts', function(done) {
-            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test sidebar --position='right'", function callback(error, stdout, stderr){
-                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
-                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
-                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
-
-                assert.equal(moduleData.toString().includes('SidebarModule'), true);
-                assert.equal(tsData.toString().includes('display'), true);
-                assert.equal(htmlData.toString().includes('</p-sidebar>'), true);
-
-                done();
-            });
-        });
-    });
 
     describe('inputtext', function() {
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
@@ -33,8 +18,36 @@ describe('nge-add', function() {
                 let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
 
                 assert.equal(moduleData.toString().includes('InputTextModule'), true);
+
+                done();
+            });
+        });
+    });
+
+
+    describe('inputtext2', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test inputtext --model=text --placeholder=type_here " , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+
                 assert.equal(tsData.toString().includes('text'), true);
-                ///////////////////////////////////////////////////////<input type="text" pInputText  [(ngModel)] = "text" placeholder = "type_here" />
+
+                done();
+            });
+        });
+    });
+
+
+    describe('inputtext3', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test inputtext --model=text --placeholder=type_here " , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
                 assert.equal(htmlData.toString().includes('<input type="text" pInputText  [(ngModel)] = "text" placeholder = "type_here" />'), true);
 
                 done();
@@ -42,7 +55,7 @@ describe('nge-add', function() {
         });
     });
 
-    describe('dropdown', function() {
+    describe('dropdown1', function() {
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test dropdown --options=myopt --label=mylabel --editable=true --model=mymodel --placeholder=placeholder" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -50,7 +63,34 @@ describe('nge-add', function() {
                 let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
 
                 assert.equal(moduleData.toString().includes('DropdownModule'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('dropdown2', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test dropdown --options=myopt --label=mylabel --editable=true --model=mymodel --placeholder=placeholder" , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+
                 assert.equal(tsData.toString().includes('myopt'), true);
+
+              done();
+            });
+        });
+    });
+
+    describe('dropdown3', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test dropdown --options=myopt --label=mylabel --editable=true --model=mymodel --placeholder=placeholder" , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
                 assert.equal(htmlData.toString().includes('<p-dropdown  [options] = "myopt" optionsLabel = "mylabel" editable = "true"  [(ngModel)] = "mymodel" placeholder = "placeholder" ></p-dropdown>'), true);
 
                 done();
@@ -58,8 +98,7 @@ describe('nge-add', function() {
         });
     });
 
-
-    describe('listbox', function() {
+    describe('listbox1', function() {
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -67,9 +106,61 @@ describe('nge-add', function() {
                 let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
 
                 assert.equal(moduleData.toString().includes('ListboxModule'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('listbox2', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
                 assert.equal(tsData.toString().includes('myopt'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('listbox3', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
                 assert.equal(tsData.toString().includes('mylabel'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('listbox4', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
                 assert.equal(tsData.toString().includes('mymodel'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('listbox5', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
                 assert.equal(htmlData.toString().includes('<p-listbox  [options] = "myopt" optionsLabel = "mylabel" multiple = "multiple" checkbox = "checkbox"  [(ngModel)] =  "mymodel" ></p-listbox>'), true);
 
                 done();
@@ -77,18 +168,13 @@ describe('nge-add', function() {
         });
     });
 
-    describe('multiselect', function() {
+    describe('multiselect1', function() {
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
                 let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
                 let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
 
-                assert.equal(moduleData.toString().includes('MultiselectModule'), true);
-                assert.equal(tsData.toString().includes('myopt'), true);
-                assert.equal(tsData.toString().includes('mylabel'), true);
-                assert.equal(tsData.toString().includes('mymodel'), true);
-                ///////////////////////////////////////////////////////<p-multiselect [options] = "myopt" optionsLabel = "mylabel"  [(ngModel)] =  "mymodel" ></p-multiselect>
                 assert.equal(htmlData.toString().includes('<p-multiselect [options] = "myopt" optionsLabel = "mylabel"  [(ngModel)] =  "mymodel" ></p-multiselect>'), true);
 
                 done();
@@ -96,7 +182,64 @@ describe('nge-add', function() {
         });
     });
 
-    describe('table1', function() {
+    describe('multiselect2', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+                assert.equal(tsData.toString().includes('myopt'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('multiselect3', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+                assert.equal(tsData.toString().includes('mylabel'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('multiselect4', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+                assert.equal(tsData.toString().includes('mymodel'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('multiselect5', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+                assert.equal(htmlData.toString().includes('<p-multiselect [options] = "myopt" optionsLabel = "mylabel"  [(ngModel)] =  "mymodel" ></p-multiselect>'), true);
+
+                done();
+            });
+        });
+    });
+
+
+    describe('table11', function() {
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -104,6 +247,19 @@ describe('nge-add', function() {
                 let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
 
                 assert.equal(moduleData.toString().includes('TableModule'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('table12', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table " , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
                 assert.equal(htmlData.toString().includes(`<p-table >
     <ng-template pTemplate="header">
         <tr>
@@ -146,7 +302,7 @@ describe('nge-add', function() {
         });
     });
 
-    describe('table2', function() {
+    describe('table21', function() {
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table --columns=mycols --value=myval" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -154,6 +310,19 @@ describe('nge-add', function() {
                 let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
 
                 assert.equal(moduleData.toString().includes('TableModule'), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('table22', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table --columns=mycols --value=myval" , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
                 assert.equal(tsData.toString().includes(`
             mycols = [
                 {field: "field1", header: "Header1"},
@@ -162,6 +331,20 @@ describe('nge-add', function() {
                 {field: "field4", header: "Header4"}
             ];
         `), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('table23', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table --columns=mycols --value=myval" , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+
                 assert.equal(tsData.toString().includes(`
             myval = [
                 {field1: "value1", field2: "value2", field3: "value3", field4: "value4"},
@@ -170,6 +353,20 @@ describe('nge-add', function() {
                 {field1: "value1", field2: "value2", field3: "value3", field4: "value4"}
             ]
         `), true);
+
+                done();
+            });
+        });
+    });
+
+    describe('table24', function() {
+        it('should add content to given component.ts, component.html, and module.ts', function(done) {
+            exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table --columns=mycols --value=myval" , function callback(error, stdout, stderr){
+                let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
+                let tsData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.ts'); //read existing contents into data
+                let htmlData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.component.html'); //read existing contents into data
+
+
                 assert.equal(htmlData.toString().includes(`
 <p-table [columns]="mycols" [value]="myval">
     <ng-template pTemplate="header" let-columns>
