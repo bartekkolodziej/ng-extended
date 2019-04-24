@@ -358,6 +358,11 @@ describe('nge-add', function () {
     });
 
     describe('inputtext1', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test inputtext --model=text --placeholder=type_here " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -373,6 +378,11 @@ describe('nge-add', function () {
 
 
     describe('inputtext2', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test inputtext --model=text --placeholder=type_here " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -389,6 +399,11 @@ describe('nge-add', function () {
 
 
     describe('inputtext3', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test inputtext --model=text --placeholder=type_here " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -403,6 +418,11 @@ describe('nge-add', function () {
     });
 
     describe('dropdown1', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test dropdown --options=myopt --label=mylabel --editable=true --model=mymodel --placeholder=placeholder" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -417,6 +437,11 @@ describe('nge-add', function () {
     });
 
     describe('dropdown2', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test dropdown --options=myopt --label=mylabel --editable=true --model=mymodel --placeholder=placeholder" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -432,6 +457,11 @@ describe('nge-add', function () {
     });
 
     describe('dropdown3', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test dropdown --options=myopt --label=mylabel --editable=true --model=mymodel --placeholder=placeholder" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -446,6 +476,11 @@ describe('nge-add', function () {
     });
 
     describe('listbox1', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -460,6 +495,11 @@ describe('nge-add', function () {
     });
 
     describe('listbox2', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -474,6 +514,11 @@ describe('nge-add', function () {
     });
 
     describe('listbox3', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -488,6 +533,11 @@ describe('nge-add', function () {
     });
 
     describe('listbox4', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -502,6 +552,11 @@ describe('nge-add', function () {
     });
 
     describe('listbox5', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test listbox --options=myopt --label=mylabel --model=mymodel --multiple=multiple --checkbox=checkbox" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -516,6 +571,11 @@ describe('nge-add', function () {
     });
 
     describe('multiselect1', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -530,6 +590,11 @@ describe('nge-add', function () {
     });
 
     describe('multiselect2', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -544,6 +609,11 @@ describe('nge-add', function () {
     });
 
     describe('multiselect3', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -558,6 +628,11 @@ describe('nge-add', function () {
     });
 
     describe('multiselect4', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -572,6 +647,11 @@ describe('nge-add', function () {
     });
 
     describe('multiselect5', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test multiselect --options=myopt --label=mylabel --model=mymodel " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -587,6 +667,11 @@ describe('nge-add', function () {
 
 
     describe('table11', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -601,6 +686,11 @@ describe('nge-add', function () {
     });
 
     describe('table12', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table " , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -650,6 +740,11 @@ describe('nge-add', function () {
     });
 
     describe('table21', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table --columns=mycols --value=myval" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -664,6 +759,11 @@ describe('nge-add', function () {
     });
 
     describe('table22', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table --columns=mycols --value=myval" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -685,6 +785,11 @@ describe('nge-add', function () {
     });
 
     describe('table23', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table --columns=mycols --value=myval" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
@@ -707,6 +812,11 @@ describe('nge-add', function () {
     });
 
     describe('table24', function() {
+        afterEach(function () {
+            exec("git checkout -- ./angular-app/src/app/test-components", (err, stdout, stderr) => {
+            })
+        });
+
         it('should add content to given component.ts, component.html, and module.ts', function(done) {
             exec("nge-add ./angular-app/src/app/test-components/test ./angular-app/src/app/test-components/test table --columns=mycols --value=myval" , function callback(error, stdout, stderr){
                 let moduleData = fs.readFileSync('./angular-app/src/app/test-components/test' + '.module.ts'); //read existing contents into data
