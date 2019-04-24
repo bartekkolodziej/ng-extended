@@ -5,20 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent { 
- 
- 
-selectedValue: string = 'value1'; 
-
-
-
- 
-  displaySidebar = false; 
-
-
-
-
-
-
+export class AppComponent {
 
 }
