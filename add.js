@@ -35,7 +35,7 @@ const components = {
     "inputtextarea": ["disabled", "model", "autoResize", "cols", "rows"],
     "keyfilter": ["validate","model", "placeholder", "filter"],
     "rating": ["disabled", "model","stars","cancel","readonly"],
-    "password":["disabled", "model","weakLabel", "mediumLabel", "strongLabel", "showpassword"],
+    "password":["disabled", "model","weakLabel", "mediumLabel", "strongLabel", "showPassword"],
     "mask": ["disabled", "model","mask","slotCharacter","characterPattern"],
     "splitbutton": ["disabled" ,"model", "label"],
     "inputswitch": ["disabled" ,"model", "placeholder"],
@@ -196,7 +196,8 @@ function parameterPoll(componentName, parameterNames, parameters){
                     poll();
                     break;
                 case 'ok':
-                    delegateRequest(componentName,parameters)
+                    delegateRequest(componentName,parameters);
+                    poll();
                     break;
                 default:
                     if(validate(answer,parameterNames)) {
@@ -263,7 +264,7 @@ function addInputSwitch(arguments){
         modelTS = arguments.model + " : boolean = true;";
     }
 
-    let htmlToAppend = "<p-inputswitch " + disabledHTML + " " + modelHTML +  " ></p-inputswitch><br/>";
+    let htmlToAppend = "<p-inputSwitch " + disabledHTML + " " + modelHTML +  " ></p-inputSwitch><br/>";
 
     let importPath = 'import {InputSwitchModule} from \'primeng/inputswitch\'; \n';
 
@@ -292,8 +293,8 @@ function addSplitButton(arguments){
     }
 
     if(arguments.model) {
-        optionsHTML = "[model] = \"" + arguments.model + "\"";
-        optionsTS = arguments.model +
+        modelHTML = "[model] = \"" + arguments.model + "\"";
+        modelTS = arguments.model +
             `= [{label: "${arguments.model}1"},
             {label: "${arguments.model}2"},
             {label: "${arguments.model}3"},
@@ -305,13 +306,13 @@ function addSplitButton(arguments){
 
     if(arguments.label) labelHTML =  "label=\"" + arguments.label + "\"";
 
-    let htmlToAppend = "<p-splitbutton "  + labelHTML +  " "  + disabledHTML + " " + modelHTML +  " ></p-splitbutton><br/>";
+    let htmlToAppend = "<p-splitButton "  + labelHTML +  " "  + disabledHTML + " " + modelHTML +  " ></p-splitButton><br/>";
 
     let importPath = 'import {SplitButtonModule} from \'primeng/splitbutton\'; \n';
 
     updateHtmlFile(htmlToAppend);
 
-    updateTsFile(  optionsTS + modelTS + disabledTS );
+    updateTsFile(   modelTS + disabledTS );
     updateModule( importPath, 'SplitButtonModule');
 }
 
@@ -361,15 +362,17 @@ function addMask(arguments){
 
 }
 
-function addPassword(argumnets){
+function addPassword(arguments){
     let disabledHTML = "";
     let disabledTS = "";
     let modelHTML = "";
     let modelTS = "";
+    let promptLabelHTML = "";
     let weakLabelHTML = "";
     let mediumLabelHTML = "";
     let strongLabelHTML = "";
     let showPasswordHTML = "";
+    let feedbackHTML = "";
 
 
     if (arguments.disabled) {
@@ -399,7 +402,7 @@ function addPassword(argumnets){
 
     if (arguments.feedback) feedbackHTML= "feedback = \"" + arguments.feedback + "\"";
 
-    let htmlToAppend = "<input type=\"password\" pPassword " + disabledHTML + " " + modelHTML +  " " + promptLabelHTML + " " + weakLabelHTML + " " + mediumLabelHTML + " " + strongLabelHTML + " " + showPasswordHTML + " /><br/>";
+    let htmlToAppend = "<input type=\"password\" pPassword " + disabledHTML + " " + modelHTML +  " " +  feedbackHTML+ " "  + promptLabelHTML + " " + weakLabelHTML + " " + mediumLabelHTML + " " + strongLabelHTML + " " + showPasswordHTML + " /><br/>";
 
     let importPath = 'import {PasswordModule} from \'primeng/password\'; \n';
 
@@ -462,15 +465,16 @@ function addKeyFilter(arguments){
 
     if(arguments.filter) {
         switch (arguments.filter) {
-            case "int":
-            case "pint":
-            case "num":
-            case "pnum":
-            case "hex":
-            case "email":
-            case "alpha":
-            case "alphanum":
+            case 'int':
+            case 'pint':
+            case 'num':
+            case 'pnum':
+            case 'hex':
+            case 'email':
+            case 'alpha':
+            case 'alphanum':
                 filterHTML = "pKeyFilter = \"" + arguments.filter + "\""
+                break;
             default:
                 filterHTML = "[pKeyFilter] = \"" + arguments.filter + "\""
                 filterTS = arguments.filter + ": RegExp = /[0-9a-zA-Z]/;\n"
@@ -529,9 +533,7 @@ function addInputTextArea(arguments){
 
     let htmlToAppend = "<textarea "+ rowsHTML + " " + colsHTML + " pInputTextarea " + disabledHTML + " " + modelHTML + " " + autoResizeHTML + " ></textarea><br/>";
 
-    let importPath = 'import {InputTextareaModule} from \'primeng/inputtext\'; \n';
-    console.log("htmlToAppend:");
-    console.log(htmlToAppend);
+    let importPath = 'import {InputTextareaModule} from \'primeng/inputtextarea\'; \n';
 
     updateHtmlFile(htmlToAppend);
 

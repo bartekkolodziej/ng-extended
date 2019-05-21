@@ -1,3 +1,6 @@
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {KeyFilterModule} from 'primeng/keyfilter'; 
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -13,6 +16,8 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
     MyComponent
   ],
   imports: [
+InputTextareaModule,
+KeyFilterModule,
 
     NoopAnimationsModule,
     BrowserModule,
