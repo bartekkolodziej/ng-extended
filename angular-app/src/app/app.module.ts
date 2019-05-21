@@ -1,4 +1,4 @@
-
+import {InputMaskModule} from 'primeng/inputmask'; 
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from '@angular/platform-browser';
@@ -12,6 +12,8 @@ import {FormsModule} from '@angular/forms';
     AppComponent
   ],
   imports: [
+InputMaskModule,
+
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
