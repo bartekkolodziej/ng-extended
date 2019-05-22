@@ -7,6 +7,21 @@ import { Component } from '@angular/core';
 })
 export class AppComponent { 
  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ color: string; 
+
+ 
+1 : string; 
+ok : string; 
+ 
+ 
+ 
 
 
 }

@@ -40,6 +40,16 @@ const components = {
     "mask": ["disabled", "model","mask","slotCharacter","characterPattern"],
     "splitbutton": ["disabled" ,"model", "label"],
     "inputswitch": ["disabled" ,"model", "placeholder"],
+    "button":["type","label","icon","disabled","style","styleClass","onClick"],
+    "slider":["animate","disabled","min","max","step","style","styleClass"],
+    "radio-button":["name","value","label","disabled","style","styleClass"],
+    "scroll-panel":["style","styleClass"],
+    "accordion":["multiple","style","styleClass","activeIndex"],
+    "inputgroup":[],
+    "chips":["field","max","disabled","style","styleClass","inputStyle"],
+    "colorpicker":["style","styleClass","inline","disabled","onChange"],
+    "gmap":["options","overlays","style","styleClass","onMapClick","onMapDragEnd"],
+    "steps":["model","activeIndex","readonly","style","styleClass"]
 }
 
 //
@@ -123,6 +133,21 @@ switch (elementToAdd) {
     case 'password':
         addPassword(getArguments());
         break;
+    case 'inputgroup':
+        addInputGroup();
+        break;
+    case 'chips':
+        addChips();
+        break;
+    case 'colorpicker':
+        addColorPicker();
+        break;
+    case 'gmap':
+        addGMap();
+        break;
+    case 'steps':
+        addSteps();
+        break;    
     default:
         poll();
 }
@@ -177,6 +202,36 @@ function delegateRequest(componentName, parameters){
         case 'password':
             addPassword(parameters);
             break;
+        case 'inputgroup':
+            addInputGroup(parameters);
+            break;
+        case 'chips':
+            addChips(parameters);
+            break;
+        case 'colorpicker':
+            addColorPicker(parameters);
+            break;
+        case 'gmap':
+            addGMap();
+            break;
+        case 'steps':
+            addSteps();
+            break;   
+        case 'button':
+            addButton();
+            break;
+        case 'slider':
+            addSlider();
+            break;
+        case 'radio-button':
+            addRadioButton();
+            break;
+        case 'scroll-panel':
+            addScrollPanel();
+            break;
+        case 'accordion':
+            addAccordion();
+            break; 
     }
 }
 
@@ -224,7 +279,7 @@ function parametersPoll(componentName){
         if(i%10 == 9) queryStr+="\n";
     }
     console.log(queryStr);
-    parameterPoll(componentName,parameterNames,{})
+    parameterPoll(componentName,parameterNames,{}) 
 
 }
 
@@ -268,8 +323,71 @@ function exit(){
 //
 //**********************************************************************************************************************
 //**********************************************************************************************************************
+function addSteps(argumentsAsHtml){
+
+    let htmlToAppend=`<p-steps  [model]="items" ${argumentsAsHtml}></p-steps>`;
+    let tsToAppend = `  items: MenuItem[];
+
+    ngOnInit() {
+        this.items = [
+            {label: 'Step 1'},
+            {label: 'Step 2'},
+            {label: 'Step 3'}
+        ];
+    }`;
+
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {StepsModule} from \'primeng/steps\'; \n', 'StepsModule');
+    updateModule('import {MenuItem} from \'primeng/api\'; \n', 'MenuItem');
 
 
+
+}
+
+function addGMap(){
+    let htmlToAppend=`<p-gmap ${argumentsAsHtml}></p-gmap>`;
+    let tsToAppend = ``;
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {GMapModule} from \'primeng/gmap\'; \n', 'GMapModule');
+
+}
+function addColorPicker(parameters){
+    let htmlToAppend=`<p-colorPicker ${parameters}></p-colorPicker>`;
+    let tsToAppend = ` color: string;`;
+
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {ColorPickerModule} from \'primeng/colorpicker\'; \n', 'ColorPickerModule');
+
+}
+
+function addChips(parameters){
+    let htmlToAppend=`<h3 class="first">Basic</h3>
+    <p-chips ${parameters}  ></p-chips>`;
+    let tsToAppend = ` values: string[];`;
+
+    updateHtmlFile(htmlToAppend);
+        updateTsFile(tsToAppend);
+        updateModule('import {ChipsModule} from \'primeng/chips\'; \n', 'ChipsModule');
+
+}
+
+function addInputGroup(parameters){
+
+    let htmlToAppend=`<h3 class="first">Addons</h3>
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                <input type="text" pInputText placeholder="Username">         
+            </div>
+        </div>`;
+    updateHtmlFile(htmlToAppend);
+    updateModule('import {InputGroupModule} from \'primeng/inputgroup\'; \n', 'InputGroupModule');
+
+}
 
 function capitalize (s){
     if (typeof s !== 'string') return ''
@@ -950,7 +1068,7 @@ function addCard() {
     updateModule("import {CardModule} from 'primeng/card';\n", '\t\t CardModule');
 }
 
-function addButton(){
+function addButton(parameters){
 
     let htmlToAppend=`<p-button  ${parameters} ></p-button>`
     updateHtmlFile(htmlToAppend);
@@ -968,7 +1086,7 @@ function addButton(){
         
     }
     
-    function addRadioButton(){
+    function addRadioButton(parameters){
         let htmlToAppend=`<div class="ui-g" style="width:250px;margin-bottom:10px">
         <div class="ui-g-12"><p-radioButton value="val1"   ${parameters}></p-radioButton></div>
     </div>`
@@ -1007,7 +1125,7 @@ function addButton(){
     updateModule('import {ScrollPanelModule} from \'primeng/scrollpanel\'; \n', 'ScrollPanelModule');
     }
     
-    function addAccordion(){
+    function addAccordion(argumentsAsHtml){
         
         let htmlToAppend =`<p-accordion [multiple]="true"  ${argumentsAsHtml}>
         <p-accordionTab header="Godfather I">

@@ -1,3 +1,14 @@
+import {GMapModule} from 'primeng/gmap'; 
+
+
+import {ButtonModule} from 'primeng/button'; 
+import {AccordionModule} from 'primeng/accordion'; 
+import {ColorPickerModule} from 'primeng/colorpicker'; 
+
+import {MultiSelectModule} from 'primeng/multiselect'; 
+import {InputTextModule} from 'primeng/inputtext'; 
+import {ListboxModule} from 'primeng/listbox'; 
+import {InputSwitchModule} from 'primeng/inputswitch'; 
 import {InputMaskModule} from 'primeng/inputmask'; 
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -12,6 +23,25 @@ import {FormsModule} from '@angular/forms';
     AppComponent
   ],
   imports: [
+GMapModule,
+GMapModule,
+GMapModule,
+GMapModule,
+GMapModule,
+GMapModule,
+ButtonModule,
+ButtonModule,
+ButtonModule,
+GMapModule,
+ButtonModule,
+AccordionModule,
+ColorPickerModule,
+ColorPickerModule,
+MultiSelectModule,
+InputTextModule,
+InputTextModule,
+ListboxModule,
+InputSwitchModule,
 InputMaskModule,
 
     FormsModule,
