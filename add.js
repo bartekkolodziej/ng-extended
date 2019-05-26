@@ -14,6 +14,49 @@ const elementToAdd = process.argv[4];
 const argumentsAsHtml = getArgumentsAsHtmlString();
 const parameters=parseParametersToString();
 
+
+//////////////////////////////////////////
+//
+//  POLL constants
+//
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+
+const components = {
+    "inputtext" : ["disabled", "model", "placeholder"],
+    "table": ["columns","value"],
+    "multiselect" : ["disabled", "model", "options", "label"],
+    "listbox": ["disabled","model", "checkbox", "options", "filter","label","multiple"],
+    "dropdown": ["disabled","model", "placeholder", "options", "filter","label","editable"],
+    "inputtextarea": ["disabled", "model", "autoResize", "cols", "rows"],
+    "keyfilter": ["validate","model", "placeholder", "filter"],
+    "rating": ["disabled", "model","stars","cancel","readonly"],
+    "password":["disabled", "model","weakLabel", "mediumLabel", "strongLabel", "showPassword"],
+    "mask": ["disabled", "model","mask","slotCharacter","characterPattern"],
+    "splitbutton": ["disabled" ,"model", "label"],
+    "inputswitch": ["disabled" ,"model", "placeholder"],
+    "button":["type","label","icon","disabled","style","styleClass","onClick"],
+    "slider":["animate","disabled","min","max","step","style","styleClass"],
+    "radio-button":["name","value","label","disabled","style","styleClass"],
+    "scroll-panel":["style","styleClass"],
+    "accordion":["multiple","style","styleClass","activeIndex"],
+    "inputgroup":[],
+    "chips":["field","max","disabled","style","styleClass","inputStyle"],
+    "colorpicker":["style","styleClass","inline","disabled","onChange"],
+    "gmap":["options","overlays","style","styleClass","onMapClick","onMapDragEnd"],
+    "steps":["model","activeIndex","readonly","style","styleClass"]
+}
+
+//
+/////////////////////////////////////////////////////////////////////////////////
+
+
+
 switch (elementToAdd) {
     case 'sidebar':
         addSidebar();
@@ -69,14 +112,588 @@ switch (elementToAdd) {
     case 'table':
         addTable(getArguments());
         break;
+    case 'inputtextarea':
+        addInputText(getArguments());
+        break;
+    case 'inputswitch':
+        addInputSwitch(getArguments());
+        break;
+    case 'splitbutton':
+        addSplitButton(getArguments());
+        break;
+    case 'mask':
+        addMask(getArguments());
+        break;
+    case 'keyfilter':
+        addKeyFilter(getArguments())
+        break;
+    case 'rating':
+        addRating(getArguments())
+        break;
+    case 'password':
+        addPassword(getArguments());
+        break;
+    case 'inputgroup':
+        addInputGroup();
+        break;
+    case 'chips':
+        addChips();
+        break;
+    case 'colorpicker':
+        addColorPicker();
+        break;
+    case 'gmap':
+        addGMap();
+        break;
+    case 'steps':
+        addSteps();
+        break;    
+    default:
+        poll();
 }
 
 
+
+
+
+
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+//
+//      POLL
+//
+
+
+function delegateRequest(componentName, parameters){
+    switch (componentName) {
+        case 'inputtext':
+            addInputText(parameters);
+            break;
+        case 'dropdown':
+            addDropdown(parameters);
+            break;
+        case 'listbox':
+            addListbox(parameters);
+            break;
+        case 'multiselect':
+            addMultiselect(parameters);
+            break;
+        case 'table':
+            addTable(parameters);
+            break;
+        case 'inputtextarea':
+            addInputTextArea(parameters);
+            break;
+        case 'inputswitch':
+            addInputSwitch(parameters);
+            break;
+        case 'splitbutton':
+            addSplitButton(parameters);
+            break;
+        case 'mask':
+            addMask(parameters);
+            break;
+        case 'keyfilter':
+            addKeyFilter(parameters)
+            break;
+        case 'rating':
+            addRating(parameters)
+            break;
+        case 'password':
+            addPassword(parameters);
+            break;
+        case 'inputgroup':
+            addInputGroup(parameters);
+            break;
+        case 'chips':
+            addChips(parameters);
+            break;
+        case 'colorpicker':
+            addColorPicker(parameters);
+            break;
+        case 'gmap':
+            addGMap();
+            break;
+        case 'steps':
+            addSteps();
+            break;   
+        case 'button':
+            addButton();
+            break;
+        case 'slider':
+            addSlider();
+            break;
+        case 'radio-button':
+            addRadioButton();
+            break;
+        case 'scroll-panel':
+            addScrollPanel();
+            break;
+        case 'accordion':
+            addAccordion();
+            break; 
+    }
+}
+
+
+function validate(input, arr){
+    return (arr.indexOf(input) >-1);
+}
+
+function poll(){
+    let queryStr = 'Type in one of the following components to choose one,\'exit\' to exit\n';
+    let componentNames = Object.getOwnPropertyNames(components);
+    for(let i = 0; i < componentNames.length; i++){
+        queryStr = queryStr + componentNames[i] + ", ";
+        if(i%10 == 9) queryStr+="\n";
+    }
+    console.log(queryStr);
+    componentPoll(componentNames)
+}
+
+function componentPoll(componentNames) {
+    rl.question("Component: ", (answer) => {
+            switch (answer) {
+                case 'exit':
+                    exit();
+                    break;
+                default:
+                    if(validate(answer,componentNames)) {
+                        parametersPoll(answer)
+                    }
+                    else {
+                        console.log("Wrong component name");
+                        componentPoll(componentNames);
+                    }
+            }
+
+        }
+    );
+}
+
+function parametersPoll(componentName){
+    let queryStr = 'Component: '+ componentName +'\nType in one of the following parameters to choose one, \'back\' to return, \'ok\' to add component\n';
+    let parameterNames = components[componentName];
+    for(let i = 0; i < parameterNames.length; i++){
+        queryStr = queryStr  + parameterNames[i] + ", ";
+        if(i%10 == 9) queryStr+="\n";
+    }
+    console.log(queryStr);
+    parameterPoll(componentName,parameterNames,{}) 
+
+}
+
+function parameterPoll(componentName, parameterNames, parameters){
+    rl.question("Parameter: ", (answer) => {
+            switch (answer) {
+                case 'back':
+                    poll();
+                    break;
+                case 'ok':
+                    delegateRequest(componentName,parameters);
+                    poll();
+                    break;
+                default:
+                    if(validate(answer,parameterNames)) {
+                        valuePoll(componentName,parameterNames,parameters, answer)
+                    }
+                    else {
+                        console.log("Wrong parameter name");
+                        parameterPoll(componentName,parameterNames,parameters)
+                    }
+            }
+        }
+    );
+}
+
+function valuePoll(componentName,parameterNames, parameters, parameterName){
+    rl.question("Value: ", (answer) => {
+            parameters[parameterName] = answer;
+            parameterPoll(componentName,parameterNames, parameters);
+        }
+    )
+}
+
+function exit(){
+    rl.close();
+    process.exit();
+}
+
+//
+//
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+function addSteps(argumentsAsHtml){
+
+    let htmlToAppend=`<p-steps  [model]="items" ${argumentsAsHtml}></p-steps>`;
+    let tsToAppend = `  items: MenuItem[];
+
+    ngOnInit() {
+        this.items = [
+            {label: 'Step 1'},
+            {label: 'Step 2'},
+            {label: 'Step 3'}
+        ];
+    }`;
+
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {StepsModule} from \'primeng/steps\'; \n', 'StepsModule');
+    updateModule('import {MenuItem} from \'primeng/api\'; \n', 'MenuItem');
+
+
+
+}
+
+function addGMap(){
+    let htmlToAppend=`<p-gmap ${argumentsAsHtml}></p-gmap>`;
+    let tsToAppend = ``;
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {GMapModule} from \'primeng/gmap\'; \n', 'GMapModule');
+
+}
+function addColorPicker(parameters){
+    let htmlToAppend=`<p-colorPicker ${parameters}></p-colorPicker>`;
+    let tsToAppend = ` color: string;`;
+
+    updateHtmlFile(htmlToAppend);
+    updateTsFile(tsToAppend);
+    updateModule('import {ColorPickerModule} from \'primeng/colorpicker\'; \n', 'ColorPickerModule');
+
+}
+
+function addChips(parameters){
+    let htmlToAppend=`<h3 class="first">Basic</h3>
+    <p-chips ${parameters}  ></p-chips>`;
+    let tsToAppend = ` values: string[];`;
+
+    updateHtmlFile(htmlToAppend);
+        updateTsFile(tsToAppend);
+        updateModule('import {ChipsModule} from \'primeng/chips\'; \n', 'ChipsModule');
+
+}
+
+function addInputGroup(parameters){
+
+    let htmlToAppend=`<h3 class="first">Addons</h3>
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                <input type="text" pInputText placeholder="Username">         
+            </div>
+        </div>`;
+    updateHtmlFile(htmlToAppend);
+    updateModule('import {InputGroupModule} from \'primeng/inputgroup\'; \n', 'InputGroupModule');
+
+}
 
 function capitalize (s){
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
+function addInputSwitch(arguments){
+
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let placeholderHTML = "";
+
+    if (arguments.disabled) {
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if (arguments.disabled != "true" && arguments.disabled != "false") {
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this." + arguments.disabled + ";\n" +
+                "}\n";
+        }
+    }
+
+    if (arguments.model) {
+        modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : boolean = true;";
+    }
+
+    let htmlToAppend = "<p-inputSwitch " + disabledHTML + " " + modelHTML +  " ></p-inputSwitch><br/>";
+
+    let importPath = 'import {InputSwitchModule} from \'primeng/inputswitch\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile( modelTS + disabledTS);
+    updateModule( importPath, 'InputSwitchModule');
+
+
+}
+
+function addSplitButton(arguments){
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let labelHTML = "";
+    if(arguments.disabled){
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if(arguments.disabled != "true" && arguments.disabled != "false"){
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this."+ arguments.disabled + ";\n" +
+                "}\n\n";
+        }
+    }
+
+    if(arguments.model) {
+        modelHTML = "[model] = \"" + arguments.model + "\"";
+        modelTS = arguments.model +
+            `= [{label: "${arguments.model}1"},
+            {label: "${arguments.model}2"},
+            {label: "${arguments.model}3"},
+            {label: "${arguments.model}4"},
+            {label: "${arguments.model}5"},
+            {label: "${arguments.model}6"}
+             ];\n\n`;
+    }
+
+    if(arguments.label) labelHTML =  "label=\"" + arguments.label + "\"";
+
+    let htmlToAppend = "<p-splitButton "  + labelHTML +  " "  + disabledHTML + " " + modelHTML +  " ></p-splitButton><br/>";
+
+    let importPath = 'import {SplitButtonModule} from \'primeng/splitbutton\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile(   modelTS + disabledTS );
+    updateModule( importPath, 'SplitButtonModule');
+}
+
+function addMask(arguments){
+
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let placeholderHTML = "";
+    let maskHTML = "";
+    let slotCharHTML = "";
+    let characterPatternHTML = "";
+
+    if (arguments.disabled) {
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if (arguments.disabled != "true" && arguments.disabled != "false") {
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this." + arguments.disabled + ";\n" +
+                "}\n";
+        }
+    }
+
+    if (arguments.model) {
+        modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string;";
+    }
+
+    if (arguments.mask) maskHTML = `mask = \"${arguments.mask}\"`;
+
+    if (arguments.slotChar) slotCharHTML = `slotChar = \"${arguments.slotChar}\"`;
+
+    if (arguments.characterPattern) characterPatternHTML = `characterPattern = \"${arguments.characterPattern}\"`;
+
+    if (arguments.placeholder) placeholderHTML = "placeholder = \"" + arguments.placeholder + "\"";
+
+    let htmlToAppend = "<p-inputMask " + disabledHTML + " " + modelHTML + " " + placeholderHTML + ` ${maskHTML} ${slotCharHTML} ${characterPatternHTML}></p-inputMask><br/>`;
+
+    let importPath = 'import {InputMaskModule} from \'primeng/inputmask\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile( modelTS + disabledTS);
+    updateModule( importPath, 'InputMaskModule');
+
+
+}
+
+function addPassword(arguments){
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let promptLabelHTML = "";
+    let weakLabelHTML = "";
+    let mediumLabelHTML = "";
+    let strongLabelHTML = "";
+    let showPasswordHTML = "";
+    let feedbackHTML = "";
+
+
+    if (arguments.disabled) {
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if (arguments.disabled != "true" && arguments.disabled != "false") {
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this." + arguments.disabled + ";\n" +
+                "}\n";
+        }
+    }
+
+    if (arguments.model) {
+        modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string;";
+    }
+
+    if (arguments.promptLabel) promptLabelHTML = "promptLabel = \"" + arguments.promptLabel + "\"";
+
+    if (arguments.showPassword) showPasswordHTML = "showPassword = \"" + arguments.showPassword + "\"";
+
+    if (arguments.weakLabel) weakLabelHTML = "weakLabel = \"" + arguments.weakLabel + "\"";
+
+    if (arguments.mediumLabel) mediumLabelHTML = "mediumLabel = \"" + arguments.mediumLabel + "\"";
+
+    if (arguments.strongLabel) strongLabelHTML = "strongLabel = \"" + arguments.strongLabel + "\"";
+
+    if (arguments.feedback) feedbackHTML= "feedback = \"" + arguments.feedback + "\"";
+
+    let htmlToAppend = "<input type=\"password\" pPassword " + disabledHTML + " " + modelHTML +  " " +  feedbackHTML+ " "  + promptLabelHTML + " " + weakLabelHTML + " " + mediumLabelHTML + " " + strongLabelHTML + " " + showPasswordHTML + " /><br/>";
+
+    let importPath = 'import {PasswordModule} from \'primeng/password\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile( modelTS + disabledTS);
+    updateModule( importPath, 'PasswordModule');
+
+}
+
+function addRating(arguments) {
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let starsHTML = "";
+    let cancelHTML = "";
+    let readonlyHTML = "";
+
+    if (arguments.disabled) {
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if (arguments.disabled != "true" && arguments.disabled != "false") {
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this." + arguments.disabled + ";\n" +
+                "}\n";
+        }
+    }
+
+    if (arguments.model) {
+        modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : number;";
+    }
+
+    if(arguments.cancel) cancelHTML = `[cancel]="${arguments.cancel}"`;
+
+    if(arguments.readonly) readonlyHTML = `readonly = \"${arguments.readonly}\""`;
+
+    if(arguments.stars) starsHTML = `stars = \"${arguments.stars}\"`;
+
+    let htmlToAppend = "<p-rating " + disabledHTML + " " + modelHTML + " " + starsHTML + `${cancelHTML} ${readonlyHTML}></p-rating><br/>`;
+
+    let importPath = 'import {RatingModule} from \'primeng/rating\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile( modelTS + disabledTS);
+    updateModule( importPath, 'RatingModule');
+
+
+}
+
+function addKeyFilter(arguments){
+    let validateHTML = "";
+    let filterHTML = "";
+    let filterTS = "";
+    let placeholderHTML = "";
+    let modelHTML = "";
+    let modelTS = "";
+
+    if(arguments.filter) {
+        switch (arguments.filter) {
+            case 'int':
+            case 'pint':
+            case 'num':
+            case 'pnum':
+            case 'hex':
+            case 'email':
+            case 'alpha':
+            case 'alphanum':
+                filterHTML = "pKeyFilter = \"" + arguments.filter + "\""
+                break;
+            default:
+                filterHTML = "[pKeyFilter] = \"" + arguments.filter + "\""
+                filterTS = arguments.filter + ": RegExp = /[0-9a-zA-Z]/;\n"
+        }
+    }
+
+    if(arguments.validate) validateHTML = "pValidateOnly = \"true\"";
+
+    if (arguments.model) {
+        modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string;\n";
+    }
+
+    if (arguments.placeholder) placeholderHTML = "placeholder = \"" + arguments.placeholder + "\"";
+
+    let htmlToAppend = "<input type=\"text\" " + validateHTML + " " + filterHTML + " " + modelHTML + " " + placeholderHTML + " /><br/>";
+
+    let importPath = 'import {KeyFilterModule} from \'primeng/keyfilter\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile( modelTS + filterTS);
+    updateModule( importPath, 'KeyFilterModule');
+
+}
+
+function addInputTextArea(arguments){
+    let disabledHTML = "";
+    let disabledTS = "";
+    let modelHTML = "";
+    let modelTS = "";
+    let autoResizeHTML = "";
+    let rowsHTML = "";
+    let colsHTML = "";
+
+    if (arguments.disabled) {
+        disabledHTML = "[disabled] = \"" + arguments.disabled + "\"";
+        if (arguments.disabled != "true" && arguments.disabled != "false") {
+            disabledTS = arguments.disabled + ": boolean = false;\n\n" +
+                "toggle" + capitalize(arguments.disabled) + " (){\n" +
+                "this." + arguments.disabled + " = !this." + arguments.disabled + ";\n" +
+                "}\n";
+        }
+    }
+
+    if (arguments.model) {
+        modelHTML = "[(ngModel)] = \"" + arguments.model + "\"";
+        modelTS = arguments.model + " : string;";
+    }
+
+    if (arguments.autoResize == "autoResize") autoResizeHTML = "autoResize=\"autoResize\"";
+
+    if(arguments.rows) rowsHTML = "[rows] = \"" + arguments.rows + "\"";
+
+    if(arguments.cols) colsHTML = "[cols] = \"" + arguments.cols + "\""
+
+    let htmlToAppend = "<textarea "+ rowsHTML + " " + colsHTML + " pInputTextarea " + disabledHTML + " " + modelHTML + " " + autoResizeHTML + " ></textarea><br/>";
+
+    let importPath = 'import {InputTextareaModule} from \'primeng/inputtextarea\'; \n';
+
+    updateHtmlFile(htmlToAppend);
+
+    updateTsFile( modelTS + disabledTS);
+    updateModule( importPath, 'InputTextareaModule');
+}
+
 
 function addTable(arguments){
     let columnsHTML="";
@@ -451,7 +1068,7 @@ function addCard() {
     updateModule("import {CardModule} from 'primeng/card';\n", '\t\t CardModule');
 }
 
-function addButton(){
+function addButton(parameters){
 
     let htmlToAppend=`<p-button  ${parameters} ></p-button>`
     updateHtmlFile(htmlToAppend);
@@ -469,7 +1086,7 @@ function addButton(){
         
     }
     
-    function addRadioButton(){
+    function addRadioButton(parameters){
         let htmlToAppend=`<div class="ui-g" style="width:250px;margin-bottom:10px">
         <div class="ui-g-12"><p-radioButton value="val1"   ${parameters}></p-radioButton></div>
     </div>`
@@ -508,7 +1125,7 @@ function addButton(){
     updateModule('import {ScrollPanelModule} from \'primeng/scrollpanel\'; \n', 'ScrollPanelModule');
     }
     
-    function addAccordion(){
+    function addAccordion(argumentsAsHtml){
         
         let htmlToAppend =`<p-accordion [multiple]="true"  ${argumentsAsHtml}>
         <p-accordionTab header="Godfather I">
