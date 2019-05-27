@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const process = require("process");
 const fs = require("fs");
+const menu = require("./cli");
 
 //first two arguments in process array are irrelevant, next are passed by user
 //first passed param is considered as component path
@@ -183,7 +184,95 @@ switch (elementToAdd) {
     addSteps();
     break;
   default:
-    poll();
+    consoleMenu();
+}
+function generateOptions(optionsArr) {
+  return optionsArr
+    .sort()
+    .map((title, hotkey) => ({ hotkey: `${hotkey + 1}`, title }));
+}
+
+function consoleMenu() {
+  let choise = {
+    component: "",
+    props: {}
+  };
+  const options = generateOptions(Object.keys(components));
+
+  menu([...options, { separator: true }], {
+    header: "nge-add menu:)",
+    border: true,
+    pageSize: 5
+  }).then(item => {
+    if (item) {
+      choise.component = item.title;
+      showMenu(item, choise);
+    } else {
+      console.log("You cancelled the menu.");
+    }
+  });
+}
+
+function showMenu(item, choise) {
+  const componentProps = generateOptions(components[`${item.title}`]);
+
+  menu(
+    [
+      { hotkey: "0", title: "Continue", selected: true },
+      ...componentProps,
+      { separator: true }
+    ],
+    {
+      header: "Wanna edit props?",
+      border: true,
+      pageSize: 5
+    }
+  ).then(_item => {
+    if (_item.hotkey == 0) {
+      console.log("You want to edit: " + JSON.stringify(choise));
+      populateProps(choise);
+    } else if (_item) {
+      choise.props[`${_item.title}`] = true;
+      showMenu(item, choise);
+    } else {
+      console.log("You cancelled the menu.");
+    }
+    return _item;
+  });
+}
+
+function populateProps(choise = {}) {
+  if (!Object.keys(choise.props).length) {
+    process.stdin.pause();
+    return;
+  }
+  console.log(">>>props", choise.props);
+
+  // Object.keys(choise.props).forEach((prop, i) => {
+  //   rl.question(`Enter value for ${prop}: `, value => {
+  //     choise.props[`${prop}`] = value;
+  //     rl.close();
+  //   });
+  //   console.log(">>>i", i);
+  //   if (Object.keys(choise.props).length == i) console.log(">>>prop", prop);
+  // });
+  let i = 0;
+  const propsKeys = Object.keys(choise.props);
+  const recursiveAsyncReadLine = () => {
+    rl.question(`Enter value for ${propsKeys[i]}: `, value => {
+      choise.props[`${propsKeys[i]}`] = value;
+      i++;
+      if (i >= propsKeys.length) {
+        console.log(">>>choises", choise);
+        process.stdin.pause();
+        return rl.close();
+      }
+      recursiveAsyncReadLine();
+    });
+  };
+  recursiveAsyncReadLine();
+
+  // exit();
 }
 
 //**********************************************************************************************************************
