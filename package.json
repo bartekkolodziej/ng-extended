@@ -1,6 +1,6 @@
 {
   "name": "nge",
-  "version": "1.0.0",
+  "version": "2.0.36",
   "description": "extended version of anuglar cli",
   "main": "index.js",
   "scripts": {
@@ -13,8 +13,8 @@
   "author": "John Doe",
   "license": "ISC",
   "bin": {
-    "nge": "./index.js",
-    "nge-add": "./add.js"
+    "nge-index": "./index.js",
+    "nge": "./poll.js"
   },
   "dependencies": {
     "keypress": "^0.2.1",
