@@ -1,8 +1,8 @@
 {
   "name": "nge",
-  "version": "2.0.49",
+  "version": "4.0.0",
   "description": "extended version of anuglar cli",
-  "main": "index.js",
+  "main": "poll.js",
   "scripts": {
     "test": "mocha"
   },
@@ -13,7 +13,7 @@
   "author": "John Doe",
   "license": "ISC",
   "bin": {
-    "nge-index": "./index.js",
+    "nge-test": "./onlyForTests.js",
     "nge": "./poll.js"
   },
   "dependencies": {

@@ -3,7 +3,6 @@ const exec = require('child_process').exec;
 const fs = require("fs");
 
 let htmlArguments = '';
-let tsArguments = '';
 let angularComponentPath = '';
 let angularModulePath = 'app';
 let params = {};
@@ -29,13 +28,9 @@ function parseProps() {
     Object.keys(params.props).forEach(e => {
         if (e === 'ngModel') {
             htmlArguments += `[(ngModel})]="${params.props[e]}" `;
-            tsArguments += `${e} = ${params.props[e]};\n`
         }
         else {
             htmlArguments += `[${e}]="${params.props[e]}" `;
-            console.log(!/'.*'|".*"|\d*|true|false/.test(params.props[e]), params.props[e]);
-            if (!/'.*'|".*"|\d*|true|false/.test(params.props[e])) //do poprawy
-                tsArguments += `${e} = ${params.props[e]};\n`;
         }
     });
 
@@ -109,10 +104,10 @@ function delegateRequest() {
         case "slider":
             addSlider();
             break;
-        case "radio-button":
+        case "radioButton":
             addRadioButton();
             break;
-        case "scroll-panel":
+        case "scrollPanel":
             addScrollPanel();
             break;
         case "accordion":
@@ -219,7 +214,7 @@ function addSteps() {
         ];`;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule("import {StepsModule} from 'primeng/steps'; \n", "StepsModule");
     updateModule("import {MenuItem} from 'primeng/api'; \n", "MenuItem");
 }
@@ -227,7 +222,7 @@ function addSteps() {
 function addGMap() {
     let htmlToAppend = `<p-gmap ${htmlArguments}></p-gmap>`;
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments);
+
     updateModule("import {GMapModule} from 'primeng/gmap'; \n", "GMapModule");
 }
 
@@ -236,7 +231,7 @@ function addColorPicker() {
     let tsToAppend = ` color: string;`;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(
         "import {ColorPickerModule} from 'primeng/colorpicker'; \n",
         "ColorPickerModule"
@@ -249,7 +244,7 @@ function addChips() {
     let tsToAppend = `values = ['abc', 'efg', 'hij'];`;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule("import {ChipsModule} from 'primeng/chips'; \n", "ChipsModule");
 }
 
@@ -263,7 +258,7 @@ function addInputGroup() {
             </div>
         </div>`;
 
-    updateTsFile(tsArguments);
+
     updateHtmlFile(htmlToAppend);
     updateModule(
         "import {InputGroupModule} from 'primeng/inputgroup'; \n",
@@ -280,7 +275,7 @@ function addInputSwitch() {
     let tsToAppend = 'checked = true';
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(importPath, "InputSwitchModule");
 }
 
@@ -297,7 +292,7 @@ function addSplitButton() {
     let importPath = "import {SplitButtonModule} from 'primeng/splitbutton'; \n";
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(importPath, "SplitButtonModule");
 }
 
@@ -308,7 +303,7 @@ function addMask() {
     let tsToAppend = 'val: string;';
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(importPath, "InputMaskModule");
 }
 
@@ -320,7 +315,7 @@ function addPassword() {
     let importPath = "import {PasswordModule} from 'primeng/password'; \n";
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(importPath, "PasswordModule");
 }
 
@@ -331,7 +326,7 @@ function addRating() {
     let importPath = "import {RatingModule} from 'primeng/rating'; \n";
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(importPath, "RatingModule");
 }
 
@@ -342,7 +337,6 @@ function addKeyFilter() {
     let importPath = "import {KeyFilterModule} from 'primeng/keyfilter'; \n";
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments);
     updateModule(importPath, "KeyFilterModule");
 }
 
@@ -352,7 +346,6 @@ function addInputTextArea() {
     let importPath = "import {InputTextareaModule} from 'primeng/inputtextarea'; \n";
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments);
     updateModule(importPath, "InputTextareaModule");
 }
 
@@ -398,7 +391,7 @@ function addTable() {
 
     let importPath = "import {TableModule} from 'primeng/table'; \n";
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(importPath, "TableModule");
 }
 
@@ -408,7 +401,6 @@ function addMultiselect() {
     let importPath = "import {MultiSelectModule} from 'primeng/multiselect'; \n";
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments);
     updateModule(importPath, "MultiSelectModule");
 }
 
@@ -418,8 +410,6 @@ function addListbox() {
     let importPath = "import {ListboxModule} from 'primeng/listbox'; \n";
 
     updateHtmlFile(htmlToAppend);
-
-    updateTsFile(tsArguments);
     updateModule(importPath, "ListboxModule");
 }
 
@@ -429,7 +419,6 @@ function addDropdown() {
     let importPath = "import {DropdownModule} from 'primeng/dropdown'; \n";
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments);
     updateModule(importPath, "DropdownModule");
 }
 
@@ -438,7 +427,6 @@ function addInputText() {
     let importPath = "import {InputTextModule} from 'primeng/inputtext'; \n";
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments);
     updateModule(importPath, "InputTextModule");
 }
 
@@ -452,7 +440,6 @@ function addFieldSet() {
 </p-fieldset>`;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments);
     updateModule(
         "import {FieldsetModule} from 'primeng/fieldset';\n",
         "\t\t FieldsetModule"
@@ -474,7 +461,6 @@ function addTabview() {
     </p-tabView>`;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments);
     updateModule(
         "import {TabViewModule} from 'primeng/tabview';\n",
         "\t\t TabViewModule"
@@ -495,13 +481,12 @@ function addCard() {
 </p-card>`;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments);
     updateModule("import {CardModule} from 'primeng/card';\n", "\t\t CardModule");
 }
 
 function addButton() {
     let htmlToAppend = `<p-button  ${htmlArguments} ></p-button>`;
-    updateTsFile(tsArguments);
+
     updateHtmlFile(htmlToAppend);
     updateModule(
         "import {ButtonModule} from 'primeng/button'; \n",
@@ -513,7 +498,7 @@ function addSlider() {
     let htmlToAppend = `<p-slider [min]="0" [max]="100" [(ngModel)]="selectedValue" ${htmlArguments}></p-slider>`;
     updateHtmlFile(htmlToAppend);
     let tsToAppend = `selectedValue = 123;`;
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(
         "import {SliderModule} from 'primeng/slider'; \n",
         "SliderModule"
@@ -529,7 +514,7 @@ function addRadioButton() {
     selectedValue = '123;`;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(
         "import {RadioButtonModule} from 'primeng/radiobutton'; \n",
         "RadioButtonModule"
@@ -604,7 +589,7 @@ function addUploadComponent() {
     `;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(
         "import {FileUploadModule} from 'primeng/fileupload'; \n",
         "FileUploadModule"
@@ -701,7 +686,7 @@ function addMenuBar() {
 
     addImportPathToTsFile("import {MenuItem} from 'primeng/api';\n");
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(
         "import {MenubarModule} from 'primeng/menubar';\n",
         "MenubarModule"
@@ -732,7 +717,7 @@ function addCarousel() {
         ];
         `;
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + tsToAppend);
+    updateTsFile(tsToAppend);
     updateModule(
         "import {CarouselModule} from 'primeng/carousel'; \n",
         "CarouselModule"
@@ -757,7 +742,7 @@ function addDialog() {
         <button type="button" (click)="displayDialog = true" pButton>Show dialog</button>\n`;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + "displayDialog = false;");
+    updateTsFile("displayDialog = false;");
     updateModule(
         "import {DialogModule} from 'primeng/dialog'; \n",
         "DialogModule"
@@ -771,7 +756,7 @@ function addSidebar() {
         <button type="text" (click)="displaySidebar = true">Show sidebar</button>\n`;
 
     updateHtmlFile(htmlToAppend);
-    updateTsFile(tsArguments + "displaySidebar = false;");
+    updateTsFile("displaySidebar = false;");
     updateModule(
         "import {SidebarModule} from 'primeng/sidebar'; \n",
         "SidebarModule"
