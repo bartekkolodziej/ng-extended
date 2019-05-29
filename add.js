@@ -13,28 +13,29 @@ module.exports = {
         console.log(">>>choises", choices);
 
         params = choices;
-        parsePropsToHtmlString();
+        parseProps();
 
         if (choices.action === 'generate')
             createNewAngularComponent();
         else {
-            delegateRequest();
             angularComponentPath = params.angularComponent;
+            delegateRequest();
         }
     }
 };
 
 
-function parsePropsToHtmlString() {
+function parseProps() {
     Object.keys(params.props).forEach(e => {
         if (e === 'ngModel') {
             htmlArguments += `[(ngModel})]="${params.props[e]}" `;
-            tsArguments += `e = ${params.props[e]} \n`
+            tsArguments += `${e} = ${params.props[e]};\n`
         }
         else {
             htmlArguments += `[${e}]="${params.props[e]}" `;
-            if (typeof e !== 'number' && typeof e !== 'boolean')
-                tsArguments += `e = ${params.props[e]} \n`;
+            console.log(!/'.*'|".*"|\d*|true|false/.test(params.props[e]), params.props[e]);
+            if (!/'.*'|".*"|\d*|true|false/.test(params.props[e])) //do poprawy
+                tsArguments += `${e} = ${params.props[e]};\n`;
         }
     });
 
@@ -42,7 +43,7 @@ function parsePropsToHtmlString() {
 
 function createNewAngularComponent() {
     exec(`ng generate component ${params.angularComponent} --module=app.module`, () => {
-        console.log('crated component', value);
+        console.log('created component', params.angularComponent);
         angularComponentPath = `${params.angularComponent}/${params.angularComponent}`;
         delegateRequest();
     });
@@ -499,7 +500,7 @@ function addCard() {
 }
 
 function addButton() {
-    let htmlToAppend = `<p-button  ${parameters} ></p-button>`;
+    let htmlToAppend = `<p-button  ${htmlArguments} ></p-button>`;
     updateTsFile(tsArguments);
     updateHtmlFile(htmlToAppend);
     updateModule(
