@@ -1,10 +1,11 @@
 {
   "name": "nge",
-  "version": "4.0.0",
-  "description": "extended version of anuglar cli",
-  "main": "poll.js",
+  "version": "5.0.2",
+  "description": "Easier PrimeNG and Angular integration",
+  "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "nge": "./poll.js"
   },
   "keywords": [
     "ng",
